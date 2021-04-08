@@ -30,7 +30,7 @@ case "$1" in
     ) ;;
 esac
 
-jarFile="/Users/bryansheranian/Desktop/\"cs courses\"/projects/SandboxHackathonServer/out/artifacts/SandboxHackathonServer_jar/SandboxHackathonServer.jar"
+jarFile="/Users/bryansheranian/Desktop/cs courses/projects/SandboxHackathonServer/out/artifacts/SandboxHackathonServer_jar/SandboxHackathonServer.jar"
 outputFile="output.txt"
 
 for func in "${lamdaFunctions[@]}";
