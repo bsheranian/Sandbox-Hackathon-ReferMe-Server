@@ -1,0 +1,37 @@
+API Endpoints:
+/login      (POST)
+/register   (POST)
+/logout     (POST)
+
+HTTP Responses:
+200 - HTTP OK
+400 - Incorrect Username
+410 - Incorrect Password
+420 - Session Expired
+430 - Username Already Taken
+500 - Server Error
+
+Login Json:
+{
+    "username":"exampleUsername",
+    "password":"examplePassword"
+}
+
+Register Json:
+{
+    "newUser":
+    {
+        "username":"exampleUsername",
+        "password":"examplePassword",
+        "email":"exampleEmail"
+    }
+}
+
+Logout Json:
+{
+    "authToken":
+    {
+        "token":"exampleToken",
+        "username":"exampleUsername"
+    }
+}

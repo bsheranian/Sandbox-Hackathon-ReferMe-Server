@@ -9,8 +9,10 @@ import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import exception.SandboxLoginException;
+import exception.SandboxServerErrorException;
 import exception.SandboxUsernameAlreadyTakenException;
 import model.User;
+import util.PasswordHasher;
 
 public class UserDAO implements IUserDAO {
 
@@ -48,10 +50,17 @@ public class UserDAO implements IUserDAO {
       throw new SandboxUsernameAlreadyTakenException("[Username Already Taken]");
     }
 
+    String hashedPassword;
+    try {
+      hashedPassword = PasswordHasher.generateHashedPassword(newUser.getPassword());
+    } catch (Exception e) {
+      throw new SandboxServerErrorException("[Server Error]: Unable to hash password");
+    }
+
     System.out.println("Adding a new item...");
     PutItemOutcome outcome = table.putItem(new Item()
         .withPrimaryKey(PRIMARY_KEY, newUser.getUsername())
-        .withString(PASSWORD_FIELD, newUser.getPassword())
+        .withString(PASSWORD_FIELD, hashedPassword)
         .withString(EMAIL_FIELD, newUser.getEmail()));
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
   }
@@ -63,8 +72,20 @@ public class UserDAO implements IUserDAO {
     System.out.println("Attempting to read the item...");
     Item outcome = table.getItem(spec);
     System.out.println("GetItem succeeded: " + outcome);
-    String storedPassword = outcome.getString(PASSWORD_FIELD);
 
-    return storedPassword.equals(password);
+    if (outcome == null) {
+      throw new SandboxLoginException("[Incorrect Username]");
+    }
+
+    String storedPassword = outcome.getString(PASSWORD_FIELD);
+    boolean verified;
+
+    try {
+      verified = PasswordHasher.validatePassword(password, storedPassword);
+    } catch (Exception e) {
+      throw new SandboxServerErrorException("[Server Error]: Unable to verify password");
+    }
+
+    return verified;
   }
 }

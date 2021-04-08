@@ -19,8 +19,12 @@ public class RegisterService extends ServiceTemplate<RegisterRequest, RegisterRe
 
     try {
       getUserDAO().registerUser(newUser);
+    } catch (SandboxUsernameAlreadyTakenException e) {
+      throw new SandboxUsernameAlreadyTakenException(e.getMessage());
+    } catch (SandboxServerErrorException e) {
+      throw new SandboxServerErrorException(e.getMessage());
     } catch (Exception e) {
-      throw new SandboxUsernameAlreadyTakenException("[Username Already Taken]");
+      throw new SandboxServerErrorException("[Server Error]: Could not register user");
     }
 
     try {
@@ -33,25 +37,5 @@ public class RegisterService extends ServiceTemplate<RegisterRequest, RegisterRe
   }
 
 
-  /**
-   * Returns an instance of {@link AuthDAO}. Allows mocking of the AuthDAO class
-   * for testing purposes. All usages of AuthDAO should get their AuthDAO
-   * instance from this method to allow for mocking of the instance.
-   *
-   * @return the instance.
-   */
-  AuthDAO getAuthDAO() {
-    return new AuthDAO();
-  }
 
-  /**
-   * Returns an instance of {@link UserDAO}. Allows mocking of the UserDAO class
-   * for testing purposes. All usages of UserDAO should get their UserDAO
-   * instance from this method to allow for mocking of the instance.
-   *
-   * @return the instance.
-   */
-  UserDAO getUserDAO() {
-    return new UserDAO();
-  }
 }
