@@ -7,9 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import request.LogoutRequest;
 import response.LogoutResponse;
-import util.SandboxHTTPResponses;
-
-import javax.management.RuntimeErrorException;
+import util.HTTP;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +21,7 @@ class LogoutServiceTest {
   @Test
   void doRequest_throwsServerException_with500Response_whenServerFailsToDeleteToken() {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
-    Mockito.doThrow(new RuntimeErrorException(new Error("error"))).when(mockAuthDAO).deleteToken(token);
+    Mockito.doThrow(new RuntimeException()).when(mockAuthDAO).deleteToken(token);
     LogoutService logoutService = Mockito.spy(new LogoutService());
 
     Mockito.when(logoutService.getAuthDAO()).thenReturn(mockAuthDAO);
@@ -33,8 +31,8 @@ class LogoutServiceTest {
     try {
       logoutService.doRequest(request);
     } catch (Exception e) {
-      assertEquals("[Server Error]: Could not terminate user session", e.getMessage());
-      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_500));
+      assertEquals(HTTP.SERVER_ERROR + ": Could not terminate user session", e.getMessage());
+      assertTrue(e.getMessage().contains(HTTP.SERVER_ERROR));
     }
   }
 

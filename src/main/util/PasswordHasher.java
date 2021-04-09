@@ -29,8 +29,7 @@ public class PasswordHasher {
     byte[] testHash = skf.generateSecret(spec).getEncoded();
 
     int diff = hash.length ^ testHash.length;
-    for(int i = 0; i < hash.length && i < testHash.length; i++)
-    {
+    for(int i = 0; i < hash.length && i < testHash.length; i++) {
       diff |= hash[i] ^ testHash[i];
     }
     return diff == 0;
@@ -39,9 +38,8 @@ public class PasswordHasher {
 
   private static byte[] fromHex(String hex) throws NoSuchAlgorithmException {
     byte[] bytes = new byte[hex.length() / 2];
-    for(int i = 0; i<bytes.length ;i++)
-    {
-      bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+    for(int i = 0; i<bytes.length ;i++) {
+      bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
     }
     return bytes;
   }
@@ -68,10 +66,9 @@ public class PasswordHasher {
     BigInteger bi = new BigInteger(1, array);
     String hex = bi.toString(16);
     int paddingLength = (array.length * 2) - hex.length();
-    if(paddingLength > 0)
-    {
+    if(paddingLength > 0) {
       return String.format("%0"  +paddingLength + "d", 0) + hex;
-    }else{
+    } else{
       return hex;
     }
   }

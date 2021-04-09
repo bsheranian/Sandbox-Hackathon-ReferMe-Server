@@ -17,6 +17,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 
 import exception.SandboxSessionExpiredException;
 import model.AuthToken;
+import util.HTTP;
 
 /**
  * A DAO for accessing 'auth' data from the database.
@@ -92,7 +93,7 @@ public class AuthDAO implements IAuthDAO {
     boolean sessionActive = MAX_SESSION_DURATION > now.getTime() - timestamp.getTime();
 
     if (!sessionActive) {
-      throw new SandboxSessionExpiredException("[Session Expired]");
+      throw new SandboxSessionExpiredException(HTTP.SESSION_EXPIRED);
     }
   }
 }

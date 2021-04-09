@@ -20,6 +20,7 @@ import exception.SandboxServerErrorException;
 import exception.SandboxEmailAlreadyAssociatedWithUserException;
 import model.User;
 import util.PasswordHasher;
+import util.HTTP;
 
 public class UserDAO implements IUserDAO {
 
@@ -60,14 +61,14 @@ public class UserDAO implements IUserDAO {
     System.out.println("GetItem succeeded: " + item);
 
     if (item != null) {
-      throw new SandboxEmailAlreadyAssociatedWithUserException("[Email Already Associated With User]");
+      throw new SandboxEmailAlreadyAssociatedWithUserException(HTTP.EMAIL_TAKEN);
     }
 
     String hashedPassword;
     try {
       hashedPassword = PasswordHasher.generateHashedPassword(newUser.getPassword());
     } catch (Exception e) {
-      throw new SandboxServerErrorException("[Server Error]: Unable to hash password");
+      throw new SandboxServerErrorException(HTTP.SERVER_ERROR + ": Unable to hash password");
     }
 
     System.out.println("Adding a new item...");
@@ -91,7 +92,7 @@ public class UserDAO implements IUserDAO {
     System.out.println("GetItem succeeded: " + outcome);
 
     if (outcome == null) {
-      throw new SandboxLoginException("[Incorrect Username]");
+      throw new SandboxLoginException(HTTP.INCORRECT_USERNAME);
     }
 
     String storedPassword = outcome.getString(PASSWORD_FIELD);
@@ -100,7 +101,7 @@ public class UserDAO implements IUserDAO {
     try {
       verified = PasswordHasher.validatePassword(password, storedPassword);
     } catch (Exception e) {
-      throw new SandboxServerErrorException("[Server Error]: Unable to verify password");
+      throw new SandboxServerErrorException(HTTP.SERVER_ERROR + ": Unable to verify password");
     }
 
     return verified;
@@ -138,7 +139,7 @@ public class UserDAO implements IUserDAO {
       System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
     } catch (Exception e) {
       System.err.println(e.getMessage());
-      throw new SandboxServerErrorException("[Server Error]: Unable to update user info");
+      throw new SandboxServerErrorException(HTTP.SERVER_ERROR + ": Unable to update user info");
     }
   }
 }

@@ -5,6 +5,7 @@ import exception.SandboxServerErrorException;
 import model.AuthToken;
 import request.LoginRequest;
 import response.LoginResponse;
+import util.HTTP;
 
 public class LoginService extends ServiceTemplate<LoginRequest, LoginResponse> {
 
@@ -23,17 +24,17 @@ public class LoginService extends ServiceTemplate<LoginRequest, LoginResponse> {
     } catch (SandboxLoginException e) {
       throw new SandboxLoginException(e.getMessage());
     } catch (Exception e) {
-      throw new SandboxServerErrorException("[Server Error]: Could not validate credentials");
+      throw new SandboxServerErrorException(HTTP.SERVER_ERROR + ": Could not validate credentials");
     }
 
     if (!validCredentials) {
-      throw new SandboxLoginException("[Incorrect Password]");
+      throw new SandboxLoginException(HTTP.INCORRECT_PASSWORD);
     }
 
     try {
       newToken = getAuthDAO().createAuthToken(username);
     } catch (Exception e) {
-      throw new SandboxServerErrorException("[Server Error]: Could not create new session");
+      throw new SandboxServerErrorException(HTTP.SERVER_ERROR + ": Could not create new session");
     }
 
     return new LoginResponse(true, newToken);

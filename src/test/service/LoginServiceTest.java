@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import request.LoginRequest;
 import response.LoginResponse;
-import util.SandboxHTTPResponses;
-
+import util.HTTP;
 import javax.management.RuntimeErrorException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +26,8 @@ class LoginServiceTest {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
     UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
 
-    Mockito.when(mockUserDAO.validateUserCredentials(username, password)).thenThrow(new RuntimeErrorException(new Error("error")));
+    Mockito.when(mockUserDAO.validateUserCredentials(username, password))
+        .thenThrow(new RuntimeException());
 
     LoginService loginService = Mockito.spy(new LoginService());
 
@@ -39,8 +39,8 @@ class LoginServiceTest {
     try {
       loginService.doRequest(request);
     } catch (Exception e) {
-      assertEquals("[Server Error]: Could not validate credentials", e.getMessage());
-      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_500));
+      assertEquals(HTTP.SERVER_ERROR + ": Could not validate credentials", e.getMessage());
+      assertTrue(e.getMessage().contains(HTTP.SERVER_ERROR));
     }
   }
 
@@ -50,7 +50,8 @@ class LoginServiceTest {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
     UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
 
-    Mockito.when(mockUserDAO.validateUserCredentials(username, password)).thenThrow(new SandboxLoginException("[Incorrect Username]"));
+    Mockito.when(mockUserDAO.validateUserCredentials(username, password))
+        .thenThrow(new SandboxLoginException(HTTP.INCORRECT_USERNAME));
 
     LoginService loginService = Mockito.spy(new LoginService());
 
@@ -62,8 +63,8 @@ class LoginServiceTest {
     try {
       loginService.doRequest(request);
     } catch (Exception e) {
-      assertEquals("[Incorrect Username]", e.getMessage());
-      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_400));
+      assertEquals(HTTP.INCORRECT_USERNAME, e.getMessage());
+      assertTrue(e.getMessage().contains(HTTP.INCORRECT_USERNAME));
     }
   }
 
@@ -85,8 +86,8 @@ class LoginServiceTest {
     try {
       loginService.doRequest(request);
     } catch (Exception e) {
-      assertEquals("[Incorrect Password]", e.getMessage());
-      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_410));
+      assertEquals(HTTP.INCORRECT_PASSWORD, e.getMessage());
+      assertTrue(e.getMessage().contains(HTTP.INCORRECT_PASSWORD));
     }
   }
 
@@ -132,8 +133,8 @@ class LoginServiceTest {
     try {
       loginService.doRequest(request);
     } catch (Exception e) {
-      assertEquals("[Server Error]: Could not create new session", e.getMessage());
-      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_500));
+      assertEquals(HTTP.SERVER_ERROR + ": Could not create new session", e.getMessage());
+      assertTrue(e.getMessage().contains(HTTP.SERVER_ERROR));
     }
   }
 
@@ -143,7 +144,8 @@ class LoginServiceTest {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
     UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
 
-    Mockito.when(mockUserDAO.validateUserCredentials(username, password)).thenThrow(new SandboxServerErrorException("[Server Error]: Unable to verify password"));
+    Mockito.when(mockUserDAO.validateUserCredentials(username, password))
+        .thenThrow(new SandboxServerErrorException(HTTP.SERVER_ERROR + ": Unable to verify password"));
 
     LoginService loginService = Mockito.spy(new LoginService());
 
@@ -155,8 +157,8 @@ class LoginServiceTest {
     try {
       loginService.doRequest(request);
     } catch (Exception e) {
-      assertEquals("[Server Error]: Unable to verify password", e.getMessage());
-      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_500));
+      assertEquals(HTTP.SERVER_ERROR + ": Unable to verify password", e.getMessage());
+      assertTrue(e.getMessage().contains(HTTP.SERVER_ERROR));
     }
   }
 }
