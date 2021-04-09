@@ -8,7 +8,7 @@ import model.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import request.RegisterRequest;
-import util.HTTP;
+import util.HTTPResponse;
 
 import javax.management.RuntimeErrorException;
 
@@ -37,8 +37,8 @@ class RegisterServiceTest {
     try {
       registerService.doRequest(request);
     } catch (Exception e) {
-      assertEquals(HTTP.SERVER_ERROR + ": Could not register user", e.getMessage());
-      assertTrue(e.getMessage().contains(HTTP.SERVER_ERROR));
+      assertEquals(HTTPResponse.SERVER_ERROR + ": Could not register user", e.getMessage());
+      assertTrue(e.getMessage().contains(HTTPResponse.SERVER_ERROR));
     }
   }
 
@@ -47,7 +47,7 @@ class RegisterServiceTest {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
     UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
 
-    Mockito.doThrow(new SandboxServerErrorException(HTTP.SERVER_ERROR + ": Unable to hash password")).when(mockUserDAO).registerUser(request.getNewUser());
+    Mockito.doThrow(new SandboxServerErrorException(HTTPResponse.SERVER_ERROR + ": Unable to hash password")).when(mockUserDAO).registerUser(request.getNewUser());
 
     RegisterService registerService = Mockito.spy(new RegisterService());
 
@@ -59,8 +59,8 @@ class RegisterServiceTest {
     try {
       registerService.doRequest(request);
     } catch (Exception e) {
-      assertEquals(HTTP.SERVER_ERROR + ": Unable to hash password", e.getMessage());
-      assertTrue(e.getMessage().contains(HTTP.SERVER_ERROR));
+      assertEquals(HTTPResponse.SERVER_ERROR + ": Unable to hash password", e.getMessage());
+      assertTrue(e.getMessage().contains(HTTPResponse.SERVER_ERROR));
     }
   }
 
@@ -82,8 +82,8 @@ class RegisterServiceTest {
     try {
       registerService.doRequest(request);
     } catch (Exception e) {
-      assertEquals(HTTP.SERVER_ERROR + ": Could not create new session for registered user", e.getMessage());
-      assertTrue(e.getMessage().contains(HTTP.SERVER_ERROR));
+      assertEquals(HTTPResponse.SERVER_ERROR + ": Could not create new session for registered user", e.getMessage());
+      assertTrue(e.getMessage().contains(HTTPResponse.SERVER_ERROR));
     }
   }
 
@@ -93,7 +93,7 @@ class RegisterServiceTest {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
     UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
 
-    Mockito.doThrow(new SandboxEmailAlreadyAssociatedWithUserException(HTTP.EMAIL_TAKEN))
+    Mockito.doThrow(new SandboxEmailAlreadyAssociatedWithUserException(HTTPResponse.EMAIL_TAKEN))
         .when(mockUserDAO).registerUser(request.getNewUser());
 
     RegisterService registerService = Mockito.spy(new RegisterService());
@@ -106,8 +106,8 @@ class RegisterServiceTest {
     try {
       registerService.doRequest(request);
     } catch (Exception e) {
-      assertEquals(HTTP.EMAIL_TAKEN, e.getMessage());
-      assertTrue(e.getMessage().contains(HTTP.EMAIL_TAKEN));
+      assertEquals(HTTPResponse.EMAIL_TAKEN, e.getMessage());
+      assertTrue(e.getMessage().contains(HTTPResponse.EMAIL_TAKEN));
     }
   }
 
