@@ -1,7 +1,7 @@
 package service;
 
 import dao.AuthDAO;
-import dao.UserDAO;
+import dao.StudentDAO;
 import exception.SandboxLoginException;
 import exception.SandboxServerErrorException;
 import model.AuthToken;
@@ -24,7 +24,7 @@ class LoginServiceTest {
   @Test
   void doRequest_throwsServerException_with500Response_whenServerFailsToValidateCreds() {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
-    UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
+    StudentDAO mockUserDAO = Mockito.mock(StudentDAO.class);
 
     Mockito.when(mockUserDAO.validateUserCredentials(username, password))
         .thenThrow(new RuntimeException());
@@ -32,7 +32,7 @@ class LoginServiceTest {
     LoginService loginService = Mockito.spy(new LoginService());
 
     Mockito.when(loginService.getAuthDAO()).thenReturn(mockAuthDAO);
-    Mockito.when(loginService.getUserDAO()).thenReturn(mockUserDAO);
+    Mockito.when(loginService.getStudentDAO()).thenReturn(mockUserDAO);
 
     assertThrows(SandboxServerErrorException.class, () -> loginService.doRequest(request));
 
@@ -48,7 +48,7 @@ class LoginServiceTest {
   @Test
   void doRequest_throwsLoginException_with400Response_whenIncorrectUsername() {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
-    UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
+    StudentDAO mockUserDAO = Mockito.mock(StudentDAO.class);
 
     Mockito.when(mockUserDAO.validateUserCredentials(username, password))
         .thenThrow(new SandboxLoginException(HTTPRegex.INCORRECT_USERNAME));
@@ -56,7 +56,7 @@ class LoginServiceTest {
     LoginService loginService = Mockito.spy(new LoginService());
 
     Mockito.when(loginService.getAuthDAO()).thenReturn(mockAuthDAO);
-    Mockito.when(loginService.getUserDAO()).thenReturn(mockUserDAO);
+    Mockito.when(loginService.getStudentDAO()).thenReturn(mockUserDAO);
 
     assertThrows(SandboxLoginException.class, () -> loginService.doRequest(request));
 
@@ -72,14 +72,14 @@ class LoginServiceTest {
   @Test
   void doRequest_throwsLoginException_with410Response_whenIncorrectPassword() {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
-    UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
+    StudentDAO mockUserDAO = Mockito.mock(StudentDAO.class);
 
     Mockito.when(mockUserDAO.validateUserCredentials(username, password)).thenReturn(false);
 
     LoginService loginService = Mockito.spy(new LoginService());
 
     Mockito.when(loginService.getAuthDAO()).thenReturn(mockAuthDAO);
-    Mockito.when(loginService.getUserDAO()).thenReturn(mockUserDAO);
+    Mockito.when(loginService.getStudentDAO()).thenReturn(mockUserDAO);
 
     assertThrows(SandboxLoginException.class, () -> loginService.doRequest(request));
 
@@ -96,7 +96,7 @@ class LoginServiceTest {
   @Test
   void doRequest_doesNotThrowException_with200Response_whenServerFailsValidatesCreds() {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
-    UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
+    StudentDAO mockUserDAO = Mockito.mock(StudentDAO.class);
 
     Mockito.when(mockUserDAO.validateUserCredentials(username, password)).thenReturn(true);
     Mockito.when(mockAuthDAO.createAuthToken(username)).thenReturn(new AuthToken(username, "token1234"));
@@ -104,7 +104,7 @@ class LoginServiceTest {
     LoginService loginService = Mockito.spy(new LoginService());
 
     Mockito.when(loginService.getAuthDAO()).thenReturn(mockAuthDAO);
-    Mockito.when(loginService.getUserDAO()).thenReturn(mockUserDAO);
+    Mockito.when(loginService.getStudentDAO()).thenReturn(mockUserDAO);
 
     assertDoesNotThrow(() -> loginService.doRequest(request));
 
@@ -118,7 +118,7 @@ class LoginServiceTest {
   @Test
   void doRequest_throwsServerException_with500Response_whenServerFailsToCreateAuthToken() {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
-    UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
+    StudentDAO mockUserDAO = Mockito.mock(StudentDAO.class);
 
     Mockito.when(mockUserDAO.validateUserCredentials(username, password)).thenReturn(true);
     Mockito.when(mockAuthDAO.createAuthToken(username)).thenThrow(new RuntimeErrorException(new Error("error")));
@@ -126,7 +126,7 @@ class LoginServiceTest {
     LoginService loginService = Mockito.spy(new LoginService());
 
     Mockito.when(loginService.getAuthDAO()).thenReturn(mockAuthDAO);
-    Mockito.when(loginService.getUserDAO()).thenReturn(mockUserDAO);
+    Mockito.when(loginService.getStudentDAO()).thenReturn(mockUserDAO);
 
     assertThrows(SandboxServerErrorException.class, () -> loginService.doRequest(request));
 
@@ -142,7 +142,7 @@ class LoginServiceTest {
   @Test
   void doRequest_throwsServerException_with500Response_whenServerFailsToValidatePassword() {
     AuthDAO mockAuthDAO = Mockito.mock(AuthDAO.class);
-    UserDAO mockUserDAO = Mockito.mock(UserDAO.class);
+    StudentDAO mockUserDAO = Mockito.mock(StudentDAO.class);
 
     Mockito.when(mockUserDAO.validateUserCredentials(username, password))
         .thenThrow(new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Unable to verify password"));
@@ -150,7 +150,7 @@ class LoginServiceTest {
     LoginService loginService = Mockito.spy(new LoginService());
 
     Mockito.when(loginService.getAuthDAO()).thenReturn(mockAuthDAO);
-    Mockito.when(loginService.getUserDAO()).thenReturn(mockUserDAO);
+    Mockito.when(loginService.getStudentDAO()).thenReturn(mockUserDAO);
 
     assertThrows(SandboxServerErrorException.class, () -> loginService.doRequest(request));
 

@@ -18,7 +18,7 @@ public class LoginService extends ServiceTemplate<LoginRequest, LoginResponse> {
     boolean validCredentials;
 
     try {
-      validCredentials = getUserDAO().validateUserCredentials(username, password);
+      validCredentials = getStudentDAO().validateUserCredentials(username, password);
     } catch (SandboxServerErrorException e) {
       throw new SandboxServerErrorException(e.getMessage());
     } catch (SandboxLoginException e) {

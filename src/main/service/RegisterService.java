@@ -3,7 +3,7 @@ package service;
 import exception.SandboxServerErrorException;
 import exception.SandboxEmailAlreadyAssociatedWithUserException;
 import model.AuthToken;
-import model.User;
+import model.Student;
 import request.RegisterRequest;
 import response.RegisterResponse;
 import util.HTTPRegex;
@@ -13,11 +13,11 @@ public class RegisterService extends ServiceTemplate<RegisterRequest, RegisterRe
 
   @Override
   public RegisterResponse doRequest(RegisterRequest request) {
-    User newUser = request.getNewUser();
+    Student newUser = request.getNewUser();
     AuthToken newToken;
 
     try {
-      getUserDAO().registerUser(newUser);
+      getStudentDAO().registerUser(newUser);
     } catch (SandboxEmailAlreadyAssociatedWithUserException e) {
       throw new SandboxEmailAlreadyAssociatedWithUserException(e.getMessage());
     } catch (SandboxServerErrorException e) {

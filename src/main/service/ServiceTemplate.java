@@ -2,8 +2,8 @@ package service;
 
 import dao.AuthDAO;
 import dao.IAuthDAO;
-import dao.IUserDAO;
-import dao.UserDAO;
+import dao.IStudentDAO;
+import dao.StudentDAO;
 
 public abstract class ServiceTemplate<T, V> {
   public abstract V doRequest(T request);
@@ -20,13 +20,13 @@ public abstract class ServiceTemplate<T, V> {
   }
 
   /**
-   * Returns an instance of {@link UserDAO}. Allows mocking of the UserDAO class
+   * Returns an instance of {@link StudentDAO}. Allows mocking of the UserDAO class
    * for testing purposes. All usages of UserDAO should get their UserDAO
    * instance from this method to allow for mocking of the instance.
    *
    * @return the instance.
    */
-  IUserDAO getUserDAO() {
-    return new UserDAO();
+  IStudentDAO getStudentDAO() {
+    return new StudentDAO();
   }
 }

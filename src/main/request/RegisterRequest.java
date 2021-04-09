@@ -1,22 +1,22 @@
 package request;
 
-import model.User;
+import model.Student;
 
 public class RegisterRequest {
 
-  private User newUser;
+  private Student newUser;
 
   public RegisterRequest() {}
 
-  public RegisterRequest(User newUser) {
+  public RegisterRequest(Student newUser) {
     this.newUser = newUser;
   }
 
-  public User getNewUser() {
+  public Student getNewUser() {
     return newUser;
   }
 
-  public void setNewUser(User newUser) {
+  public void setNewUser(Student newUser) {
     this.newUser = newUser;
   }
 }

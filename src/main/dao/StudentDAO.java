@@ -17,14 +17,14 @@ import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import exception.SandboxLoginException;
 import exception.SandboxServerErrorException;
 import exception.SandboxEmailAlreadyAssociatedWithUserException;
-import model.User;
+import model.Student;
 import util.PasswordHasher;
 import util.HTTPRegex;
 
 /**
  * A DAO for accessing 'user' data from an AWS DynamoDB table.
  */
-public class UserDAO implements IUserDAO {
+public class StudentDAO implements IStudentDAO {
 
   private final Table table;
   private final String TABLE_NAME = "user";
@@ -37,7 +37,7 @@ public class UserDAO implements IUserDAO {
   private final String IS_RECRUITER_FIELD = "is_recruiter";
 
 
-  public UserDAO() {
+  public StudentDAO() {
     AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
         .withRegion(Regions.US_WEST_2)
         .build();
@@ -52,7 +52,7 @@ public class UserDAO implements IUserDAO {
    * @param newUser the user to be registered
    */
   @Override
-  public void registerUser(User newUser) {
+  public void registerUser(Student newUser) {
 
     GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, newUser.getEmail());
     System.out.println("Attempting to read the item...");
@@ -137,7 +137,7 @@ public class UserDAO implements IUserDAO {
    * @param updatedUser the updated user object
    */
   @Override
-  public void updateUser(User updatedUser) {
+  public void updateUser(Student updatedUser) {
 
     UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(PRIMARY_KEY, updatedUser.getEmail())
         .withUpdateExpression(String.format("set %s = :%s, %s = :%s, %s = :%s, %s = :%s, %s = :%s, %s = :%s",
