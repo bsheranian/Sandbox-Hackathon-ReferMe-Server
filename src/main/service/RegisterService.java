@@ -1,9 +1,7 @@
 package service;
 
-import dao.AuthDAO;
-import dao.UserDAO;
 import exception.SandboxServerErrorException;
-import exception.SandboxUsernameAlreadyTakenException;
+import exception.SandboxEmailAlreadyAssociatedWithUserException;
 import model.AuthToken;
 import model.User;
 import request.RegisterRequest;
@@ -19,8 +17,8 @@ public class RegisterService extends ServiceTemplate<RegisterRequest, RegisterRe
 
     try {
       getUserDAO().registerUser(newUser);
-    } catch (SandboxUsernameAlreadyTakenException e) {
-      throw new SandboxUsernameAlreadyTakenException(e.getMessage());
+    } catch (SandboxEmailAlreadyAssociatedWithUserException e) {
+      throw new SandboxEmailAlreadyAssociatedWithUserException(e.getMessage());
     } catch (SandboxServerErrorException e) {
       throw new SandboxServerErrorException(e.getMessage());
     } catch (Exception e) {
@@ -28,7 +26,7 @@ public class RegisterService extends ServiceTemplate<RegisterRequest, RegisterRe
     }
 
     try {
-      newToken = getAuthDAO().createAuthToken(newUser.getUsername());
+      newToken = getAuthDAO().createAuthToken(newUser.getEmail());
     } catch (Exception e) {
       throw new SandboxServerErrorException("[Server Error]: Could not create new session for registered user");
     }

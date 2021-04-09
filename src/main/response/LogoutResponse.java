@@ -19,7 +19,7 @@ public class LogoutResponse {
     this.success = success;
   }
 
-  public String isMessage() {
+  public String getMessage() {
     return message;
   }
 

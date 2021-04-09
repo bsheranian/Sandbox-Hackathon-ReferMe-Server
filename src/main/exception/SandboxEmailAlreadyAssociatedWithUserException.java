@@ -1,9 +1,9 @@
 package exception;
 
-public class SandboxUsernameAlreadyTakenException extends RuntimeException {
+public class SandboxEmailAlreadyAssociatedWithUserException extends RuntimeException {
 
   private String message;
-  public SandboxUsernameAlreadyTakenException(String message) {
+  public SandboxEmailAlreadyAssociatedWithUserException(String message) {
     super(message);
     this.message = message;
   }

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import request.LoginRequest;
 import response.LoginResponse;
+import util.SandboxHTTPResponses;
 
 import javax.management.RuntimeErrorException;
 
@@ -18,10 +19,6 @@ class LoginServiceTest {
 
   private String username = "username";
   private String password = "password";
-
-  private String HTTP_400 = "[Incorrect Username]";
-  private String HTTP_410 = "[Incorrect Password]";
-  private String HTTP_500 = "[Server Error]";
 
   private LoginRequest request = new LoginRequest(username, password);
 
@@ -43,7 +40,7 @@ class LoginServiceTest {
       loginService.doRequest(request);
     } catch (Exception e) {
       assertEquals("[Server Error]: Could not validate credentials", e.getMessage());
-      assertTrue(e.getMessage().contains(HTTP_500));
+      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_500));
     }
   }
 
@@ -66,7 +63,7 @@ class LoginServiceTest {
       loginService.doRequest(request);
     } catch (Exception e) {
       assertEquals("[Incorrect Username]", e.getMessage());
-      assertTrue(e.getMessage().contains(HTTP_400));
+      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_400));
     }
   }
 
@@ -89,7 +86,7 @@ class LoginServiceTest {
       loginService.doRequest(request);
     } catch (Exception e) {
       assertEquals("[Incorrect Password]", e.getMessage());
-      assertTrue(e.getMessage().contains(HTTP_410));
+      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_410));
     }
   }
 
@@ -136,7 +133,7 @@ class LoginServiceTest {
       loginService.doRequest(request);
     } catch (Exception e) {
       assertEquals("[Server Error]: Could not create new session", e.getMessage());
-      assertTrue(e.getMessage().contains(HTTP_500));
+      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_500));
     }
   }
 
@@ -159,7 +156,7 @@ class LoginServiceTest {
       loginService.doRequest(request);
     } catch (Exception e) {
       assertEquals("[Server Error]: Unable to verify password", e.getMessage());
-      assertTrue(e.getMessage().contains(HTTP_500));
+      assertTrue(e.getMessage().contains(SandboxHTTPResponses.HTTP_500));
     }
   }
 }

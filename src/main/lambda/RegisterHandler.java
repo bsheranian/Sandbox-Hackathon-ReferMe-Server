@@ -12,7 +12,7 @@ public class RegisterHandler implements RequestHandler<RegisterRequest, Register
   public RegisterResponse handleRequest(RegisterRequest request, Context context) {
     LambdaLogger logger = context.getLogger();
     logger.log("Entering RegisterHandler");
-    logger.log("Username: " + request.getNewUser().getUsername());
+    logger.log("Username: " + request.getNewUser().getEmail());
     logger.log("Password : " + request.getNewUser().getPassword());
     logger.log("Email : " + request.getNewUser().getEmail());
     return new RegisterService().doRequest(request);
