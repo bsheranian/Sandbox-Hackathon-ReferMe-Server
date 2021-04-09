@@ -1,8 +1,6 @@
 package service;
 
 import dao.AuthDAO;
-import dao.IAuthDAO;
-import dao.IStudentDAO;
 import dao.StudentDAO;
 
 public abstract class ServiceTemplate<T, V> {
