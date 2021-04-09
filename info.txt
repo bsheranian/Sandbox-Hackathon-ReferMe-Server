@@ -1,7 +1,8 @@
 API Endpoints:
-1.  /login      (POST)
-2.  /register   (POST)
-3.  /logout     (POST)
+    1.  /login      (POST)
+    2.  /register   (POST)
+    3.  /logout     (POST)
+
 4.  /getMentors/{last}/{amount}/{industry}
 5.  /getMyMentors/{last}/{amount}
 6.  /getMentor

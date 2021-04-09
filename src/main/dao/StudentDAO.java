@@ -24,7 +24,7 @@ import util.HTTPRegex;
 /**
  * A DAO for accessing 'user' data from an AWS DynamoDB table.
  */
-public class StudentDAO implements IStudentDAO {
+public class StudentDAO {
 
   private final Table table;
   private final String TABLE_NAME = "user";
@@ -51,7 +51,6 @@ public class StudentDAO implements IStudentDAO {
    *
    * @param newUser the user to be registered
    */
-  @Override
   public void registerUser(Student newUser) {
 
     GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, newUser.getEmail());
@@ -90,7 +89,6 @@ public class StudentDAO implements IStudentDAO {
    * @param password the password in question
    * @return true if the username and password match
    */
-  @Override
   public boolean validateUserCredentials(String username, String password) {
     GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, username);
 
@@ -120,7 +118,6 @@ public class StudentDAO implements IStudentDAO {
    *
    * @param username the username of the user to delete
    */
-  @Override
   public void deleteUser(String username) {
     DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
         .withPrimaryKey(new PrimaryKey(PRIMARY_KEY, username));
@@ -136,7 +133,6 @@ public class StudentDAO implements IStudentDAO {
    *
    * @param updatedUser the updated user object
    */
-  @Override
   public void updateUser(Student updatedUser) {
 
     UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(PRIMARY_KEY, updatedUser.getEmail())

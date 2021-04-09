@@ -11,81 +11,60 @@ public class Student extends User {
 
   public Student() {}
 
-  public Student(String email, String password, String firstName, boolean recruiter) {
-    this.email = email;
-    this.password = password;
-    this.firstName = firstName;
-    this.recruiter = recruiter;
-    this.organization = "n/a";
-    this.lastName = "n/a";
-    this.phone = "n/a";
+  public Student(String email, String password, String imageUrl, String name, String school, String major, String industry, float gpa) {
+    super(email, password, imageUrl, name);
+    this.school = school;
+    this.major = major;
+    this.industry = industry;
+    this.gpa = gpa;
   }
 
-  public Student(String email, String password, String organization, String firstName, String lastName, String phone, boolean recruiter) {
-    this.email = email;
-    this.password = password;
-    this.organization = organization;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.phone = phone;
-    this.recruiter = recruiter;
+  public String getSchool() {
+    return school;
   }
 
-  public String getEmail() {
-    return email;
+  public void setSchool(String school) {
+    this.school = school;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public String getMajor() {
+    return major;
   }
 
-  public String getPassword() {
-    return password;
+  public void setMajor(String major) {
+    this.major = major;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public String getIndustry() {
+    return industry;
   }
 
-  public String getOrganization() {
-    return organization;
+  public void setIndustry(String industry) {
+    this.industry = industry;
   }
 
-  public void setOrganization(String organization) {
-    this.organization = organization;
+  public float getGpa() {
+    return gpa;
   }
 
-  public String getFirstName() {
-    return firstName;
+  public void setGpa(float gpa) {
+    this.gpa = gpa;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+    Student student = (Student) o;
+    return Float.compare(student.gpa, gpa) == 0 &&
+        Objects.equals(school, student.school) &&
+        Objects.equals(major, student.major) &&
+        Objects.equals(industry, student.industry);
   }
 
-  public String getLastName() {
-    return lastName;
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), school, major, industry, gpa);
   }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public boolean isRecruiter() {
-    return recruiter;
-  }
-
-  public void setRecruiter(boolean recruiter) {
-    this.recruiter = recruiter;
-  }
-
-
 }
