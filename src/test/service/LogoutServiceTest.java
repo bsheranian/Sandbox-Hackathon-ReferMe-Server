@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import request.LogoutRequest;
 import response.LogoutResponse;
-import util.HTTPResponse;
+import util.HTTPRegex;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,8 +31,8 @@ class LogoutServiceTest {
     try {
       logoutService.doRequest(request);
     } catch (Exception e) {
-      assertEquals(HTTPResponse.SERVER_ERROR + ": Could not terminate user session", e.getMessage());
-      assertTrue(e.getMessage().contains(HTTPResponse.SERVER_ERROR));
+      assertEquals(HTTPRegex.SERVER_ERROR + ": Could not terminate user session", e.getMessage());
+      assertTrue(e.getMessage().contains(HTTPRegex.SERVER_ERROR));
     }
   }
 

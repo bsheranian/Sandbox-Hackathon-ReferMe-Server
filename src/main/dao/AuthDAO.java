@@ -1,6 +1,5 @@
 package dao;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.UUID;
 import com.amazonaws.regions.Regions;
@@ -17,10 +16,10 @@ import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 
 import exception.SandboxSessionExpiredException;
 import model.AuthToken;
-import util.HTTPResponse;
+import util.HTTPRegex;
 
 /**
- * A DAO for accessing 'auth' data from the database.
+ * A DAO for accessing 'auth' data from an AWS DynamoDB table.
  */
 public class AuthDAO implements IAuthDAO {
 
@@ -29,7 +28,6 @@ public class AuthDAO implements IAuthDAO {
   private final String PRIMARY_KEY = "token";
   private final String USERNAME_FIELD = "username";
   private final String TIME_STAMP_FIELD = "time_stamp";
-
   private final long HOUR = 3600000;
   private final long MAX_SESSION_DURATION = HOUR * 1;
 
@@ -38,17 +36,16 @@ public class AuthDAO implements IAuthDAO {
     AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
         .withRegion(Regions.US_WEST_2)
         .build();
-
-
     DynamoDB dynamoDB = new DynamoDB(client);
     this.table = dynamoDB.getTable(TABLE_NAME);
   }
 
+
   /**
    * Creates an auth token for the specified user.
-   * @param username the user to log in
+   *
+   * @param username the user to be log in
    * @return the auth token
-   * @throws IOException if there is an IOException
    */
   public AuthToken createAuthToken(String username) {
     String timestamp = new Timestamp(System.currentTimeMillis()).toString();
@@ -65,9 +62,9 @@ public class AuthDAO implements IAuthDAO {
   }
 
   /**
-   * Logs out the user's current session
+   * Deletes the authToken in the database.
+   *
    * @param token the token to be deleted
-   * @return the logout response
    */
   public void deleteToken(String token) {
     DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
@@ -79,6 +76,11 @@ public class AuthDAO implements IAuthDAO {
   }
 
 
+  /**
+   * Validates that the auth token exists and hasn't timed out.
+   *
+   * @param token the token to be verified
+   */
   public void validateToken(String token) {
     GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, token);
 
@@ -93,7 +95,7 @@ public class AuthDAO implements IAuthDAO {
     boolean sessionActive = MAX_SESSION_DURATION > now.getTime() - timestamp.getTime();
 
     if (!sessionActive) {
-      throw new SandboxSessionExpiredException(HTTPResponse.SESSION_EXPIRED);
+      throw new SandboxSessionExpiredException(HTTPRegex.SESSION_EXPIRED);
     }
   }
 }

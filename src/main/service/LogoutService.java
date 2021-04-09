@@ -3,7 +3,7 @@ package service;
 import exception.SandboxServerErrorException;
 import request.LogoutRequest;
 import response.LogoutResponse;
-import util.HTTPResponse;
+import util.HTTPRegex;
 
 
 public class LogoutService extends ServiceTemplate<LogoutRequest, LogoutResponse> {
@@ -15,7 +15,7 @@ public class LogoutService extends ServiceTemplate<LogoutRequest, LogoutResponse
     try {
       getAuthDAO().deleteToken(token);
     } catch (Exception e) {
-      throw new SandboxServerErrorException(HTTPResponse.SERVER_ERROR + ": Could not terminate user session");
+      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Could not terminate user session");
     }
     return new LogoutResponse(true, "Logout successful");
   }

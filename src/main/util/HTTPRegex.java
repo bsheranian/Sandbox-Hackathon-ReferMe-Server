@@ -1,6 +1,6 @@
 package util;
 
-public class HTTPResponse {
+public class HTTPRegex {
   public static String OK = "";  //200
   public static String INCORRECT_USERNAME = "[Incorrect Username]";  //400
   public static String INCORRECT_PASSWORD = "[Incorrect Password]";  //410

@@ -1,9 +1,8 @@
 package dao;
 
-import com.amazonaws.ClientConfiguration;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.DeleteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
@@ -20,11 +19,14 @@ import exception.SandboxServerErrorException;
 import exception.SandboxEmailAlreadyAssociatedWithUserException;
 import model.User;
 import util.PasswordHasher;
-import util.HTTPResponse;
+import util.HTTPRegex;
 
+/**
+ * A DAO for accessing 'user' data from an AWS DynamoDB table.
+ */
 public class UserDAO implements IUserDAO {
 
-  private Table table;
+  private final Table table;
   private final String TABLE_NAME = "user";
   private final String PRIMARY_KEY = "email";
   private final String PASSWORD_FIELD = "password";
@@ -35,23 +37,20 @@ public class UserDAO implements IUserDAO {
   private final String IS_RECRUITER_FIELD = "is_recruiter";
 
 
-
-
   public UserDAO() {
-    ClientConfiguration clientConfig = new ClientConfiguration();
-    clientConfig.setSocketTimeout(150000);
-    clientConfig.setConnectionTimeout(15000);
-    clientConfig.setMaxErrorRetry(2);
-
     AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-        .withRegion("us-west-2")
-        .withClientConfiguration(clientConfig)
+        .withRegion(Regions.US_WEST_2)
         .build();
-
     DynamoDB dynamoDB = new DynamoDB(client);
     this.table = dynamoDB.getTable(TABLE_NAME);
   }
 
+
+  /**
+   * Registers a new user in the database.
+   *
+   * @param newUser the user to be registered
+   */
   @Override
   public void registerUser(User newUser) {
 
@@ -61,14 +60,14 @@ public class UserDAO implements IUserDAO {
     System.out.println("GetItem succeeded: " + item);
 
     if (item != null) {
-      throw new SandboxEmailAlreadyAssociatedWithUserException(HTTPResponse.EMAIL_TAKEN);
+      throw new SandboxEmailAlreadyAssociatedWithUserException(HTTPRegex.EMAIL_TAKEN);
     }
 
     String hashedPassword;
     try {
       hashedPassword = PasswordHasher.generateHashedPassword(newUser.getPassword());
     } catch (Exception e) {
-      throw new SandboxServerErrorException(HTTPResponse.SERVER_ERROR + ": Unable to hash password");
+      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Unable to hash password");
     }
 
     System.out.println("Adding a new item...");
@@ -83,6 +82,14 @@ public class UserDAO implements IUserDAO {
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
   }
 
+
+  /**
+   * Validates that a username and password match.
+   *
+   * @param username the username in question
+   * @param password the password in question
+   * @return true if the username and password match
+   */
   @Override
   public boolean validateUserCredentials(String username, String password) {
     GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, username);
@@ -92,7 +99,7 @@ public class UserDAO implements IUserDAO {
     System.out.println("GetItem succeeded: " + outcome);
 
     if (outcome == null) {
-      throw new SandboxLoginException(HTTPResponse.INCORRECT_USERNAME);
+      throw new SandboxLoginException(HTTPRegex.INCORRECT_USERNAME);
     }
 
     String storedPassword = outcome.getString(PASSWORD_FIELD);
@@ -101,22 +108,34 @@ public class UserDAO implements IUserDAO {
     try {
       verified = PasswordHasher.validatePassword(password, storedPassword);
     } catch (Exception e) {
-      throw new SandboxServerErrorException(HTTPResponse.SERVER_ERROR + ": Unable to verify password");
+      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Unable to verify password");
     }
 
     return verified;
   }
 
+
+  /**
+   * Deletes a user from the database.
+   *
+   * @param username the username of the user to delete
+   */
   @Override
   public void deleteUser(String username) {
     DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
         .withPrimaryKey(new PrimaryKey(PRIMARY_KEY, username));
 
     System.out.println("Attempting a conditional delete...");
-    DeleteItemOutcome outcome = table.deleteItem(deleteItemSpec);
+    table.deleteItem(deleteItemSpec);
     System.out.println("DeleteItem succeeded");
   }
 
+
+  /**
+   * Updates a user to contain the info in the updated user object.
+   *
+   * @param updatedUser the updated user object
+   */
   @Override
   public void updateUser(User updatedUser) {
 
@@ -139,7 +158,7 @@ public class UserDAO implements IUserDAO {
       System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
     } catch (Exception e) {
       System.err.println(e.getMessage());
-      throw new SandboxServerErrorException(HTTPResponse.SERVER_ERROR + ": Unable to update user info");
+      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Unable to update user info");
     }
   }
 }
