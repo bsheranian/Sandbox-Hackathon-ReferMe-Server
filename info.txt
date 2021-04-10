@@ -1,22 +1,22 @@
 API Endpoints:
-1.  /login      (POST)
-2.  /register   (POST)
-3.  /logout     (POST)
-4.  /getMentors/{last}/{amount}/{industry}
-5.  /getMyMentors/{last}/{amount}
-6.  /getMentor
-7.  /getStudents/{last}/{num}/{major}
-8.  /getMyStudents/{last}/{num}
-9.  /getStudent
-10. /getOpenings/{last}/{amount}/{industry}
-    11. /postOpening
-12. /recommendStudent
-    13. /getRecommendations/{openingID}/{last}/{num}
-14. /requestMatch/{requestedUserID}
-15. /isMatched/{requestedUserID}
-16. /acceptMatch/{matchID}
-17. /declineMatch/{matchID}
-18. /getPendingMatches/{last}/{amount}
+    1.  /login      (POST)
+    2.  /register   (POST)
+    3.  /logout     (POST)
+4.  /getMentors/{last}/{amount}/{industry} (Nathan request done)
+5.  /getMyMentors/{last}/{amount} (Nathan request done)
+6.  /getMentor (Nathan request done)
+7.  /getStudents/{last}/{amount}/{industry} (Nathan request done)
+8.  /getMyStudents/{last}/{amount} (Nathan request done)
+9.  /getStudent  (Nathan request done)
+10. /getOpenings/{last}/{amount}/{industry} (Nathan request done)
+    11. /postOpening (Nathan request done)
+12. /recommendStudent (Nathan request done)
+    13. /getRecommendations/{openingID}/{last}/{amount} (Nathan request done)
+14. /requestMatch/{requestedUserID} (Nathan request done)
+15. /isMatched/{requestedUserID} (Nathan request done)
+16. /acceptMatch/{matchID} (Nathan request done)
+17. /declineMatch/{matchID} (Nathan request done)
+18. /getPendingMatches/{last}/{amount} (Nathan request done)
 
 
 
