@@ -17,7 +17,7 @@ public class RegisterService extends ServiceTemplate<RegisterRequest, RegisterRe
     AuthToken newToken;
 
     try {
-      getStudentDAO().registerUser(newUser);
+      getStudentDAO().addStudent(request.getNewUser());
     } catch (SandboxEmailAlreadyAssociatedWithUserException e) {
       throw new SandboxEmailAlreadyAssociatedWithUserException(e.getMessage());
     } catch (SandboxServerErrorException e) {

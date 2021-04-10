@@ -1,9 +1,14 @@
 package service;
 
 import dao.AuthDAO;
-import dao.IAuthDAO;
-import dao.IStudentDAO;
+import dao.CompanyDAO;
+import dao.CredDAO;
+import dao.JobOpeningDAO;
+import dao.MatchDAO;
+import dao.MentorDAO;
+import dao.RecommendationDAO;
 import dao.StudentDAO;
+import model.Recommendation;
 
 public abstract class ServiceTemplate<T, V> {
   public abstract V doRequest(T request);
@@ -15,7 +20,7 @@ public abstract class ServiceTemplate<T, V> {
    *
    * @return the instance.
    */
-  IAuthDAO getAuthDAO() {
+  protected AuthDAO getAuthDAO() {
     return new AuthDAO();
   }
 
@@ -26,7 +31,19 @@ public abstract class ServiceTemplate<T, V> {
    *
    * @return the instance.
    */
-  IStudentDAO getStudentDAO() {
+  protected StudentDAO getStudentDAO() {
     return new StudentDAO();
   }
+
+  protected CompanyDAO getCompanyDAO() { return new CompanyDAO(); }
+
+  protected CredDAO getCredDAO() { return new CredDAO(); }
+
+  protected JobOpeningDAO getJobOpeningDAO() { return new JobOpeningDAO(); }
+
+  protected MatchDAO getMatchDAO() { return new MatchDAO(); }
+
+  protected MentorDAO getMentorDAO() { return new MentorDAO(); }
+
+  protected RecommendationDAO getRecommendationDAO() { return new RecommendationDAO(); }
 }

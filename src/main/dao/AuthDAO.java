@@ -21,7 +21,7 @@ import util.HTTPRegex;
 /**
  * A DAO for accessing 'auth' data from an AWS DynamoDB table.
  */
-public class AuthDAO implements IAuthDAO {
+public class AuthDAO {
 
   private Table table;
   private final String TABLE_NAME = "auth";
