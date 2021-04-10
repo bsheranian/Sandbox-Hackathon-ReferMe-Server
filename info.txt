@@ -18,9 +18,9 @@ API Endpoints:
 17. /declineMatch/{student-id}/{mentor-id}      (POST)
 18. /getPendingMatches/?limit=#&last=#    (GET)
 
-NEW
+NEW (Need END-POINTS and LAMBDAS!)
 19. /getopening/{job-opening-id}        (GET)
-20. /getrecommendation/{job-opening-id}     (GET)
+20. /getrecommendation/{recommendation-id}/{job-opening-id}     (GET)
 
 
 REQUIREMENT BEFORE TESTING:

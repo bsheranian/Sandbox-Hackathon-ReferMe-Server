@@ -27,6 +27,23 @@ case "$1" in
       "sandboxRegister"
       "sandboxLogin"
       "sandboxLogout"
+      "sandboxAcceptMatch"
+      "sandboxGetRecommendations"
+      "sandboxGetOpening"
+      "sandboxRequestMatch"
+      "sandboxGetMentor"
+      "sandboxIsMatched"
+      "sandboxGetStudent"
+      "sandboxGetPendingMatches"
+      "sandboxDeclineMatch"
+      "sandboxGetMyStudents"
+      "sandboxGetStudents"
+      "sandboxGetMyMentors"
+      "sandboxGetOpenings"
+      "sandboxGetMentors"
+      "sandboxPostOpening"
+      "sandboxRecommendStudent"
+      "sandboxGetRecommendation"
     ) ;;
 esac
 
@@ -38,11 +55,24 @@ do
   aws lambda update-function-code --function-name "$func" --zip-file fileb://"$jarFile" >> "$outputFile"
 done
 
+declare -i numSuccessfulUploads=0
+
+if grep -q "Successful" "$outputFile";
+then
+  for func in "${lamdaFunctions[@]}";
+  do
+    if grep -q $func $outputFile;
+    then
+      numSuccessfulUploads+=1
+    fi
+  done
+fi
+
 
 if grep -q "Successful" "$outputFile";
 then
   echo
-  echo "SUCCESSFUL UPLOADS:"
+  echo "SUCCESSFUL UPLOADS: ($numSuccessfulUploads)"
   for func in "${lamdaFunctions[@]}";
   do
     if grep -q $func $outputFile;
