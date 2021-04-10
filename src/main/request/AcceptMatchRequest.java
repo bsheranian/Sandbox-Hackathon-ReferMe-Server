@@ -1,12 +1,12 @@
 package request;
 
-public class declineMatchRequest {
+public class AcceptMatchRequest {
     private String studentId;
     private String mentorId;
 
-    public declineMatchRequest() {}
+    public AcceptMatchRequest() {}
 
-    public declineMatchRequest(String studentId, String mentorId) {
+    public AcceptMatchRequest(String studentId, String mentorId) {
         this.studentId = studentId;
         this.mentorId = mentorId;
     }

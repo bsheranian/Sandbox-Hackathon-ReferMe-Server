@@ -37,7 +37,7 @@ public class CredDAO {
     Item item = table.getItem(spec);
     System.out.println("GetItem succeeded: " + item);
 
-    if (item != null) {
+    if (item != null && item.getInt(SORT_KEY) == userType) {
       throw new SandboxEmailAlreadyAssociatedWithUserException(HTTPRegex.EMAIL_TAKEN);
     }
 
@@ -53,6 +53,17 @@ public class CredDAO {
         .withPrimaryKey(PRIMARY_KEY, username, SORT_KEY, userType)
         .withString(PASSWORD_FIELD, hashedPassword));
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
+  }
+
+
+  public int getUserType(String token) {
+    GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, token);
+
+    System.out.println("Attempting to read the item...");
+    Item outcome = table.getItem(spec);
+    System.out.println("GetItem succeeded: " + outcome);
+
+    return outcome.getInt(SORT_KEY);
   }
 
 
@@ -72,6 +83,7 @@ public class CredDAO {
 
     try {
       verified = PasswordHasher.validatePassword(password, storedPassword);
+      verified = verified && outcome.getInt(SORT_KEY) == userType;
     } catch (Exception e) {
       throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Unable to verify password");
     }

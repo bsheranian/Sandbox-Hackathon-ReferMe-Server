@@ -20,6 +20,11 @@ API Endpoints:
 19. /getopening/{job-opening-id}        (GET)
 
 
+REQUIREMENT BEFORE TESTING:
+- Lambdas have DynamoDBFullAccess
+- Database is populated with correct info!!
+- Lambda functions have handler specified (lambda.MyHandler::handleRequest)
+- API Endpoints have correct HTTP 500 integration response
 
 
 

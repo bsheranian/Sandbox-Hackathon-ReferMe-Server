@@ -4,13 +4,15 @@ public class recommendStudentRequest {
     private String studentEmail;
     private String mentorEmail;
     private String message;
+    private String jobOpeningId;
 
     public recommendStudentRequest() {}
 
-    public recommendStudentRequest(String studentEmail, String mentorEmail, String message) {
+    public recommendStudentRequest(String studentEmail, String mentorEmail, String message, String jobOpeningId) {
         this.studentEmail = studentEmail;
         this.mentorEmail = mentorEmail;
         this.message = message;
+        this.jobOpeningId = jobOpeningId;
     }
 
     public String getStudentEmail() {
@@ -35,5 +37,13 @@ public class recommendStudentRequest {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getJobOpeningId() {
+        return jobOpeningId;
+    }
+
+    public void setJobOpeningId(String jobOpeningId) {
+        this.jobOpeningId = jobOpeningId;
     }
 }

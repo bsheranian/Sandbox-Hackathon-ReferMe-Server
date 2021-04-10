@@ -1,22 +1,22 @@
 package request;
 
 public class getStudentRequest {
-    private String last;
+    private String studentId;
     private String industry;
 
-    public getStudentRequest(){}
+    public getStudentRequest() {}
 
-    public getStudentRequest(String last, String industry) {
-        this.last = last;
+    public getStudentRequest(String studentId, String industry) {
+        this.studentId = studentId;
         this.industry = industry;
     }
 
-    public String getLast() {
-        return last;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setLast(String last) {
-        this.last = last;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getIndustry() {

@@ -7,6 +7,12 @@ public class LoginRequest {
 
   public LoginRequest() {}
 
+  public LoginRequest(String username, String password, int userType) {
+    this.username = username;
+    this.password = password;
+    this.userType = userType;
+  }
+
   public String getUsername() {
     return username;
   }

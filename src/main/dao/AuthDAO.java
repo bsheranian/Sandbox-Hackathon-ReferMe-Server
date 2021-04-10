@@ -61,6 +61,19 @@ public class AuthDAO {
     return new AuthToken(username, token);
   }
 
+  public String getUsername(String token) {
+    GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, token);
+
+    System.out.println("Attempting to read the item...");
+    Item outcome = table.getItem(spec);
+    System.out.println("GetItem succeeded: " + outcome);
+
+    return outcome.getString(USERNAME_FIELD);
+  }
+
+
+
+
   /**
    * Deletes the authToken in the database.
    *

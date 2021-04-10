@@ -1,22 +1,22 @@
 package request;
 
 public class getMentorRequest {
-    private String last;
+    private String mentorId;
     private String industry;
 
     public getMentorRequest() {}
 
-    public getMentorRequest(String last, String industry) {
-        this.last = last;
+    public getMentorRequest(String mentorId, String industry) {
+        this.mentorId = mentorId;
         this.industry = industry;
     }
 
-    public String getLast() {
-        return last;
+    public String getMentorId() {
+        return mentorId;
     }
 
-    public void setLast(String last) {
-        this.last = last;
+    public void setMentorId(String mentorId) {
+        this.mentorId = mentorId;
     }
 
     public String getIndustry() {

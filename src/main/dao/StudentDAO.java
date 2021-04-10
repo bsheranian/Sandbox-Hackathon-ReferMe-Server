@@ -5,21 +5,34 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
+import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import exception.SandboxBadRequestException;
 import exception.SandboxLoginException;
 import exception.SandboxServerErrorException;
 import exception.SandboxEmailAlreadyAssociatedWithUserException;
+import model.Mentor;
+import model.Pair;
 import model.Student;
 import util.PasswordHasher;
 import util.HTTPRegex;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A DAO for accessing 'student' data from an AWS DynamoDB table.
@@ -57,6 +70,86 @@ public class StudentDAO {
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
   }
 
+
+  public Student getStudent(String studentId, String industry) {
+    GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, studentId, SORT_KEY, industry);
+    System.out.println("Attempting to read the item...");
+    Item item = table.getItem(spec);
+    System.out.println("GetItem succeeded: " + item);
+
+    Student newStudent = new Student();
+    newStudent.setEmail(item.getString(PRIMARY_KEY));
+    newStudent.setImageUrl(item.getString(IMAGE_URL_FIELD));
+    newStudent.setName(item.getString(NAME_FIELD));
+    newStudent.setSchool(item.getString(SCHOOL_FIELD));
+    newStudent.setIndustry(item.getString(SORT_KEY));
+    newStudent.setGpa(item.getFloat(GPA_FIELD));
+    newStudent.setMajor(item.getString(MAJOR_FIELD));
+    return newStudent;
+  }
+
+
+  public Pair<List<Student>, Boolean> getStudents(int limit, String last, String industry) {
+
+    if (limit < 0) {
+      throw new SandboxBadRequestException("[Bad Request]: Request size too small, size=" + limit);
+    }
+    if (last == null) {
+      throw new SandboxBadRequestException("[Bad Request]: Invalid follower id, id=" + last);
+    }
+
+    int pageSize = limit;
+
+    HashMap<String, String> nameMap = new HashMap<String, String>();
+    nameMap.put("#industry", SORT_KEY);
+
+    HashMap<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put(":industry", industry);
+
+    QuerySpec querySpec;
+    if (last == null || last.equals("null")) {
+      querySpec = new QuerySpec()
+          .withScanIndexForward(true)
+          .withMaxResultSize(pageSize)
+          .withKeyConditionExpression("#industry = :industry")
+          .withNameMap(nameMap)
+          .withValueMap(valueMap);
+    } else {
+      querySpec = new QuerySpec()
+          .withScanIndexForward(true)
+          .withMaxResultSize(pageSize)
+          .withExclusiveStartKey(new PrimaryKey(PRIMARY_KEY, last, SORT_KEY, industry))
+          .withKeyConditionExpression("#industry = :industry")
+          .withNameMap(nameMap)
+          .withValueMap(valueMap);
+    }
+
+    ItemCollection<QueryOutcome> items = table.query(querySpec);
+    Iterator<Item> iterator = items.iterator();
+    Item item = null;
+
+    List<Student> studentList = new ArrayList<>();
+
+    while (iterator.hasNext()) {
+      item = iterator.next();
+
+      Student newStudent = new Student();
+      newStudent.setEmail(item.getString(PRIMARY_KEY));
+      newStudent.setImageUrl(item.getString(IMAGE_URL_FIELD));
+      newStudent.setName(item.getString(NAME_FIELD));
+      newStudent.setSchool(item.getString(SCHOOL_FIELD));
+      newStudent.setIndustry(item.getString(SORT_KEY));
+      newStudent.setGpa(item.getFloat(GPA_FIELD));
+      newStudent.setMajor(item.getString(MAJOR_FIELD));
+
+      studentList.add(newStudent);
+    }
+
+    Map<String, AttributeValue> map = items.getLastLowLevelResult().getQueryResult().getLastEvaluatedKey();
+    boolean hasMorePages = (map != null);
+
+    return new Pair<>(studentList, hasMorePages);
+  }
 
 
   /**
