@@ -1,34 +1,48 @@
 API Endpoints:
-1.  /login      (POST)
-2.  /register   (POST)
-3.  /logout     (POST)
-4.  /getmentors/{industry}/?limit=#&last=#  (GET)
-5.  /getmymentors/?limit=#&last=#   (GET)
-6.  /getmentor/{mentor-id}      (GET)
-7.  /getstudents/{industry}/?limit=#&last=#     (GET)
-8.  /getmystudents/?limit=#&last=#   (GET)
-9.  /getstudent/{student-id}     (GET)
-10. /getopenings/{industry}/?limit=#&last=#  (GET)
-11. /postOpening    (POST)
-12. /recommendStudent     (POST)
-13. /getrecommendations/{job-opening-id}/?limit=#&last=#    (GET)
-14. /requestMatch   (POST)
-15. /ismatched/{student-id}/{mentor-id}    (GET)
-16. /acceptMatch/{student-id}/{mentor-id}     (POST)
-17. /declineMatch/{student-id}/{mentor-id}      (POST)
-18. /getPendingMatches/?limit=#&last=#    (GET)
 
-NEW (Need END-POINTS and LAMBDAS!)
-19. /getopening/{industry}/{job-opening-id}        (GET)
-20. /getrecommendation/{recommendation-id}/{job-opening-id}     (GET)
+/acceptmatch      (POST)
+/declinematch     (POST)
+/getmentor/{industry}/{mentor-id}
+/getmentors/{industry}?limit=#&last=#
+/getmymentors/{industry}?limit=#&last=#
+/getmystudents/{industry}?limit=#&last=#
+/getopening/{industry}/{job-opening-id}
+/getopenings/{industry}?limit=#&last=#
+/getpendingmatches/{industry}?limit=#&last=#
+
+
+
+
+
+    1.  /login      (POST)
+    2.  /register   (POST)
+    3.  /logout     (POST)
+    4.  /getmentors/{industry}/?limit=#&last=#  (GET)
+    5.  /getmymentors/?limit=#&last=#   (GET)
+    6.  /getmentor/{mentor-id}      (GET)
+    7.  /getstudents/{industry}/?limit=#&last=#     (GET)
+    8.  /getmystudents/?limit=#&last=#   (GET)
+    9.  /getstudent/{student-id}     (GET)
+    10. /getopenings/{industry}/?limit=#&last=#  (GET)
+    11. /postOpening    (POST)
+    12. /recommendStudent     (POST)
+    13. /getrecommendations/{job-opening-id}/?limit=#&last=#    (GET)
+    14. /requestMatch   (POST)
+    15. /ismatched/{student-id}/{mentor-id}    (GET)
+    16.
+    17. /declineMatch/{student-id}/{mentor-id}      (POST)
+    18. /getPendingMatches/?limit=#&last=#    (GET)
+    19. /getopening/{industry}/{job-opening-id}        (GET)
+    20. /getrecommendation/{recommendation-id}/{job-opening-id}     (GET)
+21. /getmyopenings/{company-id}     (GET)
 
 
 REQUIREMENT BEFORE TESTING:
-- Lambdas have DynamoDBFullAccess
-- Database is populated with correct info!!
-- Lambda functions have handler specified (lambda.MyHandler::handleRequest)
+X - Lambdas have DynamoDBFullAccess
+X - Database is populated with correct info!!
+X - Lambda functions have handler specified (lambda.MyHandler::handleRequest)
 - API Endpoints have correct HTTP 500 integration response
-
+- DEPLOY API!!
 
 
 HTTP Responses:

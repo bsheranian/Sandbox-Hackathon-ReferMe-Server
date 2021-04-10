@@ -22,7 +22,7 @@ public class GetJobOpeningsResponse {
         this.jobOpenings = jobOpenings;
     }
 
-    public boolean hasHasMorePages() {
+    public boolean getHasMorePages() {
         return hasMorePages;
     }
 

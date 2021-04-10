@@ -6,6 +6,7 @@ import model.User;
 import request.GetPendingMatchesRequest;
 import response.GetPendingMatchesResponse;
 import util.HTTPRegex;
+import util.StackTraceUtils;
 import util.UserType;
 
 import java.util.ArrayList;
@@ -21,18 +22,23 @@ public class GetPendingMatchesService extends ServiceTemplate<GetPendingMatchesR
             String username = getAuthDAO().getUsername(request.getToken());
             int userType = getCredDAO().getUserType(username);
 
-            Pair<List<String>, Boolean> outcome = getMatchDAO().getMentors(request.getLimit(), request.getLast(), username);
-            hasMorePages = outcome.getSecond();
 
-            for (String id : outcome.getFirst()) {
-                if (userType == UserType.STUDENT) {
+            if (userType == UserType.STUDENT) {
+                Pair<List<String>, Boolean> outcome = getMatchDAO().getPendingMentors(request.getLimit(), request.getLast(), username);
+                hasMorePages = outcome.getSecond();
+                for (String id : outcome.getFirst()) {
                     pendingRequests.add(getMentorDAO().getMentor(id, request.getIndustry()));
-                } else {
+                }
+            } else {
+                Pair<List<String>, Boolean> outcome = getMatchDAO().getPendingStudents(request.getLimit(), request.getLast(), username);
+                hasMorePages = outcome.getSecond();
+                for (String id : outcome.getFirst()) {
                     pendingRequests.add(getStudentDAO().getStudent(id, request.getIndustry()));
                 }
             }
+
         } catch (Exception e) {
-            throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());
+            throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage() + StackTraceUtils.traceToString(e.getStackTrace()));
         }
 
         return new GetPendingMatchesResponse(pendingRequests, hasMorePages);

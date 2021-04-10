@@ -12,7 +12,7 @@ public class PostJobOpeningService extends ServiceTemplate<PostJobOpeningRequest
     @Override
     public PostJobOpeningResponse doRequest(PostJobOpeningRequest request) {
         try {
-            request.getJobOpening().setIndustry(UUID.randomUUID().toString());
+            request.getJobOpening().setId(UUID.randomUUID().toString());
             getJobOpeningDAO().addJobOpening(request.getJobOpening());
         } catch (Exception e) {
             throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());

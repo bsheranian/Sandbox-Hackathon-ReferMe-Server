@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Index;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
@@ -96,13 +97,13 @@ public class MentorDAO {
     if (limit < 0) {
       throw new SandboxBadRequestException("[Bad Request]: Request size too small, size=" + limit);
     }
-
     if (last == null) {
       throw new SandboxBadRequestException("[Bad Request]: Invalid follower id, id=" + last);
     }
 
-    List<String> followeeAliases = new ArrayList<>();
     int pageSize = limit;
+
+    Index index = table.getIndex("query-mentors-by-industry");
 
 
     HashMap<String, String> nameMap = new HashMap<String, String>();
@@ -129,11 +130,17 @@ public class MentorDAO {
           .withValueMap(valueMap);
     }
 
-    ItemCollection<QueryOutcome> items = table.query(querySpec);
+    ItemCollection<QueryOutcome> items = index.query(querySpec);
+
+    List<Mentor> mentorsList = new ArrayList<>();
+
+    if (items == null) {
+      return new Pair<>(mentorsList, false);
+    }
     Iterator<Item> iterator = items.iterator();
     Item item = null;
 
-    List<Mentor> mentorsList = new ArrayList<>();
+
 
     while (iterator.hasNext()) {
       item = iterator.next();

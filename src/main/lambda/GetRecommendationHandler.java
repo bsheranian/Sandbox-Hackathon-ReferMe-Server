@@ -12,7 +12,7 @@ public class GetRecommendationHandler implements RequestHandler<GetRecommendatio
   public GetRecommendationResponse handleRequest(GetRecommendationRequest request, Context context) {
     LambdaLogger logger = context.getLogger();
     logger.log("Entering GetRecommendationHandler");
-    logger.log("jobOpeningId: " + request.getJobOpengingId());
+    logger.log("jobOpeningId: " + request.getJobOpeningId());
     logger.log("recommendationId: " + request.getRecommendationId());
     logger.log("token: " + request.getToken());
     return new GetRecommendationService().doRequest(request);

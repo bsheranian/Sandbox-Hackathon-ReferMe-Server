@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Index;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
@@ -94,9 +95,6 @@ public class StudentDAO {
     if (limit < 0) {
       throw new SandboxBadRequestException("[Bad Request]: Request size too small, size=" + limit);
     }
-    if (last == null) {
-      throw new SandboxBadRequestException("[Bad Request]: Invalid follower id, id=" + last);
-    }
 
     int pageSize = limit;
 
@@ -105,6 +103,8 @@ public class StudentDAO {
 
     HashMap<String, Object> valueMap = new HashMap<String, Object>();
     valueMap.put(":industry", industry);
+
+    Index index = table.getIndex("students-by-industry");
 
     QuerySpec querySpec;
     if (last == null || last.equals("null")) {
@@ -124,7 +124,7 @@ public class StudentDAO {
           .withValueMap(valueMap);
     }
 
-    ItemCollection<QueryOutcome> items = table.query(querySpec);
+    ItemCollection<QueryOutcome> items = index.query(querySpec);
     Iterator<Item> iterator = items.iterator();
     Item item = null;
 

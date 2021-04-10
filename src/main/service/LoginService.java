@@ -24,7 +24,7 @@ public class LoginService extends ServiceTemplate<LoginRequest, LoginResponse> {
     } catch (SandboxLoginException e) {
       throw new SandboxLoginException(e.getMessage());
     } catch (Exception e) {
-      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Could not validate credentials");
+      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Could not validate credentials" + e.getMessage());
     }
 
     if (!validCredentials) {

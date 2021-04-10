@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Index;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
@@ -59,14 +60,26 @@ public class RecommendationDAO {
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
   }
 
+  public Recommendation getRecommendation(String recommendationId, String jobOpeningId) {
+    GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, recommendationId, SORT_KEY, jobOpeningId);
+    System.out.println("Attempting to read the item...");
+    Item item = table.getItem(spec);
+    System.out.println("GetItem succeeded: " + item);
+    Recommendation recommendation = new Recommendation();
+    recommendation.setId(item.getString(PRIMARY_KEY));
+    recommendation.setJobOpeningId(item.getString(SORT_KEY));
+    recommendation.setMessage(item.getString(MESSAGE_FIELD));
+    recommendation.setStudentEmail(item.getString(STUDENT_EMAIL_FIELD));
+    recommendation.setMentorEmail(item.getString(MENTOR_EMAIL_FIELD));
+
+    return recommendation;
+  }
+
 
   public Pair<List<Recommendation>, Boolean> getRecommendations(int limit, String last, String jobOpeningId) {
 
     if (limit < 0) {
       throw new SandboxBadRequestException("[Bad Request]: Request size too small, size=" + limit);
-    }
-    if (last == null) {
-      throw new SandboxBadRequestException("[Bad Request]: Invalid follower id, id=" + last);
     }
 
     int pageSize = limit;
@@ -76,6 +89,8 @@ public class RecommendationDAO {
 
     HashMap<String, Object> valueMap = new HashMap<String, Object>();
     valueMap.put(":opening", jobOpeningId);
+
+    Index index = table.getIndex("recs-by-opening");
 
     QuerySpec querySpec;
     if (last == null || last.equals("null")) {
@@ -95,7 +110,7 @@ public class RecommendationDAO {
           .withValueMap(valueMap);
     }
 
-    ItemCollection<QueryOutcome> items = table.query(querySpec);
+    ItemCollection<QueryOutcome> items = index.query(querySpec);
     Iterator<Item> iterator = items.iterator();
     Item item = null;
 

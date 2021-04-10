@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Index;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
@@ -38,7 +39,7 @@ public class MatchDAO {
   private Table table;
   private final String TABLE_NAME = "match";
   private final String PRIMARY_KEY = "student_id";
-  private final String STATUS_FIELD = "status";
+  private final String STATUS_FIELD = "match_status";
   private final String SORT_KEY = "mentor_id";
   private final String ACCEPTED = "accepted";
 
@@ -68,8 +69,8 @@ public class MatchDAO {
 
   public void acceptMatch(String studentId, String mentorId) {
     UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(PRIMARY_KEY, studentId, SORT_KEY, mentorId)
-        .withUpdateExpression(String.format("set %s = :%s", STATUS_FIELD, STATUS_FIELD))
-        .withValueMap(new ValueMap().withString(":" + STATUS_FIELD, ACCEPTED))
+        .withUpdateExpression(String.format("set %s = :a", STATUS_FIELD))
+        .withValueMap(new ValueMap().withString(":a", ACCEPTED))
         .withReturnValues(ReturnValue.UPDATED_NEW);
     System.out.println("Updating the item...");
     UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
@@ -115,9 +116,6 @@ public class MatchDAO {
     if (limit < 0) {
       throw new SandboxBadRequestException("[Bad Request]: Request size too small, size=" + limit);
     }
-    if (lastMentorId == null) {
-      throw new SandboxBadRequestException("[Bad Request]: Invalid mentorId, mentorId=" + lastMentorId);
-    }
     if (studentId == null) {
       throw new SandboxBadRequestException("[Bad Request]: Invalid studentId, studentId=" + studentId);
     }
@@ -131,6 +129,8 @@ public class MatchDAO {
     valueMap.put(":studentId", studentId);
 
     System.out.println("No error before query");
+
+    Index index = table.getIndex("match-by-");
 
     QuerySpec querySpec;
     if (lastMentorId == null || lastMentorId.equals("null")) {
@@ -153,6 +153,11 @@ public class MatchDAO {
     System.out.println("No error after query");
 
     ItemCollection<QueryOutcome> items = table.query(querySpec);
+
+    if (items != null) {
+      System.out.println("Items are not null");
+    }
+
     Iterator<Item> iterator = items.iterator();
     Item item = null;
 
@@ -160,7 +165,76 @@ public class MatchDAO {
 
     while (iterator.hasNext()) {
       item = iterator.next();
-      mentorIds.add(item.getString(SORT_KEY));
+      if (item.getString(STATUS_FIELD).equals(ACCEPTED)) {
+        mentorIds.add(item.getString(SORT_KEY));
+      }
+    }
+
+    Map<String, AttributeValue> map = items.getLastLowLevelResult().getQueryResult().getLastEvaluatedKey();
+    boolean hasMorePages = (map != null);
+
+    return new Pair<List<String>, Boolean>(mentorIds, hasMorePages);
+  }
+
+
+
+  public Pair<List<String>, Boolean> getPendingMentors(int limit, String lastMentorId, String studentId) {
+
+    if (limit < 0) {
+      throw new SandboxBadRequestException("[Bad Request]: Request size too small, size=" + limit);
+    }
+    if (studentId == null) {
+      throw new SandboxBadRequestException("[Bad Request]: Invalid studentId, studentId=" + studentId);
+    }
+
+    int pageSize = limit;
+
+    HashMap<String, String> nameMap = new HashMap<String, String>();
+    nameMap.put("#studentId", PRIMARY_KEY);
+
+    HashMap<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put(":studentId", studentId);
+
+    System.out.println("No error before query");
+
+    //Index index = table.getIndex("match-by-");
+
+    QuerySpec querySpec;
+    if (lastMentorId == null || lastMentorId.equals("null")) {
+      querySpec = new QuerySpec()
+          .withScanIndexForward(true)
+          .withMaxResultSize(pageSize)
+          .withKeyConditionExpression("#studentId = :studentId")
+          .withNameMap(nameMap)
+          .withValueMap(valueMap);
+    } else {
+      querySpec = new QuerySpec()
+          .withScanIndexForward(true)
+          .withMaxResultSize(pageSize)
+          .withExclusiveStartKey(new PrimaryKey(PRIMARY_KEY, studentId, SORT_KEY, lastMentorId))
+          .withKeyConditionExpression("#studentId = :studentId")
+          .withNameMap(nameMap)
+          .withValueMap(valueMap);
+    }
+
+    System.out.println("No error after query");
+
+    ItemCollection<QueryOutcome> items = table.query(querySpec);
+
+    if (items != null) {
+      System.out.println("Items are not null");
+    }
+
+    Iterator<Item> iterator = items.iterator();
+    Item item = null;
+
+    List<String> mentorIds = new ArrayList<>();
+
+    while (iterator.hasNext()) {
+      item = iterator.next();
+      if (item.getString(STATUS_FIELD).equals(item.getString(SORT_KEY))) {
+        mentorIds.add(item.getString(SORT_KEY));
+      }
     }
 
     Map<String, AttributeValue> map = items.getLastLowLevelResult().getQueryResult().getLastEvaluatedKey();
@@ -177,9 +251,6 @@ public class MatchDAO {
     if (limit < 0) {
       throw new SandboxBadRequestException("[Bad Request]: Request size too small, size=" + limit);
     }
-    if (lastStudentId == null) {
-      throw new SandboxBadRequestException("[Bad Request]: Invalid mentorId, mentorId=" + lastStudentId);
-    }
     if (mentorId == null) {
       throw new SandboxBadRequestException("[Bad Request]: Invalid studentId, studentId=" + mentorId);
     }
@@ -193,6 +264,8 @@ public class MatchDAO {
     valueMap.put(":mentorId", mentorId);
 
     System.out.println("No error before query");
+
+    Index index = table.getIndex("query-match-by-mentor");
 
     QuerySpec querySpec;
     if (lastStudentId == null || lastStudentId.equals("null")) {
@@ -214,7 +287,7 @@ public class MatchDAO {
 
     System.out.println("No error after query");
 
-    ItemCollection<QueryOutcome> items = table.query(querySpec);
+    ItemCollection<QueryOutcome> items = index.query(querySpec);
     Iterator<Item> iterator = items.iterator();
     Item item = null;
 
@@ -222,7 +295,71 @@ public class MatchDAO {
 
     while (iterator.hasNext()) {
       item = iterator.next();
-      studentIds.add(item.getString(SORT_KEY));
+      if (item.getString(STATUS_FIELD).equals(ACCEPTED)) {
+        studentIds.add(item.getString(PRIMARY_KEY));
+      }
+    }
+
+    Map<String, AttributeValue> map = items.getLastLowLevelResult().getQueryResult().getLastEvaluatedKey();
+    boolean hasMorePages = (map != null);
+
+    return new Pair<>(studentIds, hasMorePages);
+  }
+
+
+
+  public Pair<List<String>, Boolean> getPendingStudents(int limit, String lastStudentId, String mentorId) {
+
+    if (limit < 0) {
+      throw new SandboxBadRequestException("[Bad Request]: Request size too small, size=" + limit);
+    }
+    if (mentorId == null) {
+      throw new SandboxBadRequestException("[Bad Request]: Invalid studentId, studentId=" + mentorId);
+    }
+
+    int pageSize = limit;
+
+    HashMap<String, String> nameMap = new HashMap<String, String>();
+    nameMap.put("#mentorId", SORT_KEY);
+
+    HashMap<String, Object> valueMap = new HashMap<String, Object>();
+    valueMap.put(":mentorId", mentorId);
+
+    System.out.println("No error before query");
+
+    Index index = table.getIndex("query-match-by-mentor");
+
+    QuerySpec querySpec;
+    if (lastStudentId == null || lastStudentId.equals("null")) {
+      querySpec = new QuerySpec()
+          .withScanIndexForward(true)
+          .withMaxResultSize(pageSize)
+          .withKeyConditionExpression("#mentorId = :mentorId")
+          .withNameMap(nameMap)
+          .withValueMap(valueMap);
+    } else {
+      querySpec = new QuerySpec()
+          .withScanIndexForward(true)
+          .withMaxResultSize(pageSize)
+          .withExclusiveStartKey(new PrimaryKey(PRIMARY_KEY, lastStudentId, SORT_KEY, mentorId))
+          .withKeyConditionExpression("#mentorId = :mentorId")
+          .withNameMap(nameMap)
+          .withValueMap(valueMap);
+    }
+
+    System.out.println("No error after query");
+
+    ItemCollection<QueryOutcome> items = index.query(querySpec);
+    Iterator<Item> iterator = items.iterator();
+    Item item = null;
+
+    List<String> studentIds = new ArrayList<>();
+
+    while (iterator.hasNext()) {
+      item = iterator.next();
+      if (item.getString(STATUS_FIELD).equals(item.getString(PRIMARY_KEY))) {
+        studentIds.add(item.getString(PRIMARY_KEY));
+      }
     }
 
     Map<String, AttributeValue> map = items.getLastLowLevelResult().getQueryResult().getLastEvaluatedKey();

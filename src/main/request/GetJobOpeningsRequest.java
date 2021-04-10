@@ -17,7 +17,7 @@ public class GetJobOpeningsRequest {
         return last;
     }
 
-    public void setLimit(String last) {
+    public void setLast(String last) {
         this.last = last;
     }
 

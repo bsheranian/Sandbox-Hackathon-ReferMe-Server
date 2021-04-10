@@ -31,7 +31,7 @@ public class GetMyMentorsService extends ServiceTemplate<GetMyMentorsRequest, Ge
                 mentors.add(mentorDAO.getMentor(id, request.getIndustry()));
             }
         } catch (Exception e) {
-            throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR);
+            throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());
         }
 
         System.out.println("hasMorePages: " + hasMorePages);

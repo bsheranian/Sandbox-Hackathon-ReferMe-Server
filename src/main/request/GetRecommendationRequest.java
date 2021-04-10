@@ -2,14 +2,14 @@ package request;
 
 public class GetRecommendationRequest {
   private String token;
-  private String jobOpengingId;
+  private String jobOpeningId;
   private String recommendationId;
 
   public GetRecommendationRequest() {}
 
   public GetRecommendationRequest(String token, String jobOpengingId, String recommendationId) {
     this.token = token;
-    this.jobOpengingId = jobOpengingId;
+    this.jobOpeningId = jobOpengingId;
     this.recommendationId = recommendationId;
   }
 
@@ -21,12 +21,12 @@ public class GetRecommendationRequest {
     this.token = token;
   }
 
-  public String getJobOpengingId() {
-    return jobOpengingId;
+  public String getJobOpeningId() {
+    return jobOpeningId;
   }
 
-  public void setJobOpengingId(String jobOpengingId) {
-    this.jobOpengingId = jobOpengingId;
+  public void setJobOpeningId(String jobOpengingId) {
+    this.jobOpeningId = jobOpengingId;
   }
 
   public String getRecommendationId() {
