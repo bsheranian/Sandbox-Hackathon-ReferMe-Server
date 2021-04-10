@@ -24,7 +24,9 @@ done
 case "$1" in
   -all)
     lamdaFunctions=(
-      "sandboxRegister"
+      "sandboxRegisterStudent"
+      "sandboxRegisterMentor"
+      "sandboxRegisterCompany"
       "sandboxLogin"
       "sandboxLogout"
       "sandboxAcceptMatch"
