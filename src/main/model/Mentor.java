@@ -8,15 +8,17 @@ public class Mentor extends User {
   private String industry;
   private float rating;   //out of 5
   private int yearsExperience;
+  private float moneyMade;
 
   public Mentor() {}
 
-  public Mentor(String email, String password, String imageUrl, String name, String school, String industry, float rating, int yearsExperience) {
+  public Mentor(String email, String password, String imageUrl, String name, String school, String industry, float rating, int yearsExperience, float moneyMade) {
     super(email, password, imageUrl, name);
     this.school = school;
     this.industry = industry;
     this.rating = rating;
     this.yearsExperience = yearsExperience;
+    this.moneyMade = moneyMade;
   }
 
   public String getSchool() {
@@ -51,6 +53,14 @@ public class Mentor extends User {
     this.yearsExperience = yearsExperience;
   }
 
+  public float getMoneyMade() {
+    return moneyMade;
+  }
+
+  public void setMoneyMade(float moneyMade) {
+    this.moneyMade = moneyMade;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -59,12 +69,13 @@ public class Mentor extends User {
     Mentor mentor = (Mentor) o;
     return Float.compare(mentor.rating, rating) == 0 &&
         yearsExperience == mentor.yearsExperience &&
+        Float.compare(mentor.moneyMade, moneyMade) == 0 &&
         Objects.equals(school, mentor.school) &&
         Objects.equals(industry, mentor.industry);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), school, industry, rating, yearsExperience);
+    return Objects.hash(super.hashCode(), school, industry, rating, yearsExperience, moneyMade);
   }
 }
