@@ -22,19 +22,19 @@ import util.PasswordHasher;
 import util.HTTPRegex;
 
 /**
- * A DAO for accessing 'user' data from an AWS DynamoDB table.
+ * A DAO for accessing 'student' data from an AWS DynamoDB table.
  */
 public class StudentDAO {
 
   private final Table table;
-  private final String TABLE_NAME = "user";
+  private final String TABLE_NAME = "student";
   private final String PRIMARY_KEY = "email";
-  private final String PASSWORD_FIELD = "password";
-  private final String ORGANIZATION_FIELD = "organization";
-  private final String FIRST_NAME_FIELD = "first_name";
-  private final String LAST_NAME_FIELD = "last_name";
-  private final String PHONE_NUMBER_FIELD = "phone_number";
-  private final String IS_RECRUITER_FIELD = "is_recruiter";
+  private final String NAME_FIELD = "name";
+  private final String SCHOOL_FIELD = "school";
+  private final String IMAGE_URL_FIELD = "image_url";
+  private final String MAJOR_FIELD = "major";
+  private final String SORT_KEY = "industry";
+  private final String GPA_FIELD = "gpa";
 
 
   public StudentDAO() {
@@ -45,71 +45,32 @@ public class StudentDAO {
     this.table = dynamoDB.getTable(TABLE_NAME);
   }
 
-
-  /**
-   * Registers a new user in the database.
-   *
-   * @param newUser the user to be registered
-   */
-  public void registerUser(Student newUser) {
-
-    GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, newUser.getEmail());
-    System.out.println("Attempting to read the item...");
-    Item item = table.getItem(spec);
-    System.out.println("GetItem succeeded: " + item);
-
-    if (item != null) {
-      throw new SandboxEmailAlreadyAssociatedWithUserException(HTTPRegex.EMAIL_TAKEN);
-    }
-
-    String hashedPassword;
-    try {
-      hashedPassword = PasswordHasher.generateHashedPassword(newUser.getPassword());
-    } catch (Exception e) {
-      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Unable to hash password");
-    }
-
+  public void addStudent(Student newStudent) {
     System.out.println("Adding a new item...");
     PutItemOutcome outcome = table.putItem(new Item()
-        .withPrimaryKey(PRIMARY_KEY, newUser.getEmail())
-        .withString(PASSWORD_FIELD, hashedPassword)
-        .withString(ORGANIZATION_FIELD, newUser.getOrganization())
-        .withString(FIRST_NAME_FIELD, newUser.getFirstName())
-        .withString(LAST_NAME_FIELD, newUser.getLastName())
-        .withString(PHONE_NUMBER_FIELD, newUser.getPhone())
-        .withBoolean(IS_RECRUITER_FIELD, newUser.isRecruiter()));
+        .withPrimaryKey(PRIMARY_KEY, newStudent.getEmail(), SORT_KEY, newStudent.getIndustry())
+        .withString(NAME_FIELD, newStudent.getName())
+        .withString(SCHOOL_FIELD, newStudent.getSchool())
+        .withString(MAJOR_FIELD, newStudent.getMajor())
+        .withFloat(GPA_FIELD, newStudent.getGpa())
+        .withString(IMAGE_URL_FIELD, newStudent.getImageUrl()));
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
   }
 
 
+
   /**
-   * Validates that a username and password match.
+   * Deletes a user from the database.
    *
-   * @param username the username in question
-   * @param password the password in question
-   * @return true if the username and password match
+   * @param username the username of the user to delete
    */
-  public boolean validateUserCredentials(String username, String password) {
-    GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, username);
+  public void deleteStudent(String username, String industry) {
+    DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
+        .withPrimaryKey(new PrimaryKey(PRIMARY_KEY, username, SORT_KEY, industry));
 
-    System.out.println("Attempting to read the item...");
-    Item outcome = table.getItem(spec);
-    System.out.println("GetItem succeeded: " + outcome);
-
-    if (outcome == null) {
-      throw new SandboxLoginException(HTTPRegex.INCORRECT_USERNAME);
-    }
-
-    String storedPassword = outcome.getString(PASSWORD_FIELD);
-    boolean verified;
-
-    try {
-      verified = PasswordHasher.validatePassword(password, storedPassword);
-    } catch (Exception e) {
-      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Unable to verify password");
-    }
-
-    return verified;
+    System.out.println("Attempting a conditional delete...");
+    table.deleteItem(deleteItemSpec);
+    System.out.println("DeleteItem succeeded");
   }
 
 
@@ -118,7 +79,7 @@ public class StudentDAO {
    *
    * @param username the username of the user to delete
    */
-  public void deleteUser(String username) {
+  public void deleteStudent(String username) {
     DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
         .withPrimaryKey(new PrimaryKey(PRIMARY_KEY, username));
 
@@ -128,33 +89,33 @@ public class StudentDAO {
   }
 
 
-  /**
-   * Updates a user to contain the info in the updated user object.
-   *
-   * @param updatedUser the updated user object
-   */
-  public void updateUser(Student updatedUser) {
-
-    UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(PRIMARY_KEY, updatedUser.getEmail())
-        .withUpdateExpression(String.format("set %s = :%s, %s = :%s, %s = :%s, %s = :%s, %s = :%s, %s = :%s",
-            PASSWORD_FIELD, PASSWORD_FIELD, ORGANIZATION_FIELD, ORGANIZATION_FIELD, FIRST_NAME_FIELD, FIRST_NAME_FIELD,
-            LAST_NAME_FIELD, LAST_NAME_FIELD, PHONE_NUMBER_FIELD, PHONE_NUMBER_FIELD, IS_RECRUITER_FIELD, IS_RECRUITER_FIELD))
-        .withValueMap(new ValueMap()
-            .withString(":" + PASSWORD_FIELD, updatedUser.getPassword())
-            .withString(":" + ORGANIZATION_FIELD, updatedUser.getOrganization())
-            .withString(":" + FIRST_NAME_FIELD, updatedUser.getFirstName())
-            .withString(":" + LAST_NAME_FIELD, updatedUser.getLastName())
-            .withString(":" + PHONE_NUMBER_FIELD, updatedUser.getPhone())
-            .withBoolean(":" + IS_RECRUITER_FIELD, updatedUser.isRecruiter()))
-        .withReturnValues(ReturnValue.UPDATED_NEW);
-
-    try {
-      System.out.println("Updating the item...");
-      UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
-      System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
-    } catch (Exception e) {
-      System.err.println(e.getMessage());
-      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Unable to update user info");
-    }
-  }
+//  /**
+//   * Updates a user to contain the info in the updated user object.
+//   *
+//   * @param updatedUser the updated user object
+//   */
+//  public void updateUser(Student updatedUser) {
+//
+//    UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(PRIMARY_KEY, updatedUser.getEmail())
+//        .withUpdateExpression(String.format("set %s = :%s, %s = :%s, %s = :%s, %s = :%s, %s = :%s, %s = :%s",
+//            PASSWORD_FIELD, PASSWORD_FIELD, ORGANIZATION_FIELD, ORGANIZATION_FIELD, FIRST_NAME_FIELD, FIRST_NAME_FIELD,
+//            LAST_NAME_FIELD, LAST_NAME_FIELD, PHONE_NUMBER_FIELD, PHONE_NUMBER_FIELD, IS_RECRUITER_FIELD, IS_RECRUITER_FIELD))
+//        .withValueMap(new ValueMap()
+//            .withString(":" + PASSWORD_FIELD, updatedUser.getPassword())
+//            .withString(":" + ORGANIZATION_FIELD, updatedUser.getOrganization())
+//            .withString(":" + FIRST_NAME_FIELD, updatedUser.getFirstName())
+//            .withString(":" + LAST_NAME_FIELD, updatedUser.getLastName())
+//            .withString(":" + PHONE_NUMBER_FIELD, updatedUser.getPhone())
+//            .withBoolean(":" + IS_RECRUITER_FIELD, updatedUser.isRecruiter()))
+//        .withReturnValues(ReturnValue.UPDATED_NEW);
+//
+//    try {
+//      System.out.println("Updating the item...");
+//      UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
+//      System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
+//    } catch (Exception e) {
+//      System.err.println(e.getMessage());
+//      throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + ": Unable to update user info");
+//    }
+//  }
 }

@@ -1,23 +1,23 @@
 API Endpoints:
-    1.  /login      (POST)
-    2.  /register   (POST)
-    3.  /logout     (POST)
-
-4.  /getMentors/{last}/{amount}/{industry}
-5.  /getMyMentors/{last}/{amount}
-6.  /getMentor
-7.  /getStudents/{last}/{num}/{major}
-8.  /getMyStudents/{last}/{num}
-9.  /getStudent
-10. /getOpenings/{last}/{amount}/{industry}
-    11. /postOpening
-12. /recommendStudent
-    13. /getRecommendations/{openingID}/{last}/{num}
-14. /requestMatch/{requestedUserID}
-15. /isMatched/{requestedUserID}
-16. /acceptMatch/{matchID}
-17. /declineMatch/{matchID}
-18. /getPendingMatches/{last}/{amount}
+1.  /login      (POST)
+2.  /register   (POST)
+3.  /logout     (POST)
+4.  /getmentors/{industry}/?limit=#&last=#  (GET)
+5.  /getmymentors/?limit=#&last=#   (GET)
+6.  /getmentor/{mentor-id}      (GET)
+7.  /getstudents/{industry}/?limit=#&last=#     (GET)
+8.  /getmystudents/?limit=#&last=#   (GET)
+9.  /getstudent/{student-id}     (GET)
+10. /getopenings/{industry}/?limit=#&last=#  (GET)
+11. /postOpening    (POST)
+12. /recommendStudent     (POST)
+13. /getRecommendations/{job-opening-id}/?limit=#&last=#    (GET)
+14. /requestMatch   (POST)
+15. /ismatched/{student-id}/{mentor-id}    (GET)
+16. /acceptMatch/{student-id}/{mentor-id}     (POST)
+17. /declineMatch/{student-id}/{mentor-id}      (POST)
+18. /getPendingMatches/?limit=#&last=#    (GET)
+19. /getopening/{job-opening-id}        (GET)
 
 
 
