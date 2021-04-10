@@ -50,7 +50,7 @@ public class JobOpeningDAO {
   public void addJobOpening(JobOpening newOpening) {
     System.out.println("Adding a new item...");
     PutItemOutcome outcome = table.putItem(new Item()
-        .withPrimaryKey(PRIMARY_KEY, UUID.randomUUID().toString(), SORT_KEY, newOpening.getIndustry())
+        .withPrimaryKey(PRIMARY_KEY, newOpening.getId(), SORT_KEY, newOpening.getIndustry())
         .withString(DESCRIPTION_FIELD, newOpening.getJobDescription()));
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
   }

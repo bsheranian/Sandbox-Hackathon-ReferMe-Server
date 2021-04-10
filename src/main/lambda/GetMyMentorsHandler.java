@@ -16,6 +16,7 @@ public class GetMyMentorsHandler implements RequestHandler<GetMyMentorsRequest, 
     logger.log("limit: " + request.getLimit());
     logger.log("token: " + request.getToken());
     logger.log("industry: " + request.getIndustry());
+
     return new GetMyMentorsService().doRequest(request);
   }
 }

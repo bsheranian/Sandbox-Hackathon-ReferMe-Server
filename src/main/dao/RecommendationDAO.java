@@ -52,7 +52,7 @@ public class RecommendationDAO {
   public void addRecommendation(Recommendation newRecommendation) {
     System.out.println("Adding a new item...");
     PutItemOutcome outcome = table.putItem(new Item()
-        .withPrimaryKey(PRIMARY_KEY, UUID.randomUUID().toString(), SORT_KEY, newRecommendation.getJobOpeningId())
+        .withPrimaryKey(PRIMARY_KEY, newRecommendation.getId(), SORT_KEY, newRecommendation.getJobOpeningId())
         .withString(MENTOR_EMAIL_FIELD, newRecommendation.getMentorEmail())
         .withString(STUDENT_EMAIL_FIELD, newRecommendation.getStudentEmail())
         .withString(MESSAGE_FIELD, newRecommendation.getMessage()));

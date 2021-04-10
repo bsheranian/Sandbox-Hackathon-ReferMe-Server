@@ -5,11 +5,14 @@ import request.PostJobOpeningRequest;
 import response.PostJobOpeningResponse;
 import util.HTTPRegex;
 
+import java.util.UUID;
+
 public class PostJobOpeningService extends ServiceTemplate<PostJobOpeningRequest, PostJobOpeningResponse>{
 
     @Override
     public PostJobOpeningResponse doRequest(PostJobOpeningRequest request) {
         try {
+            request.getJobOpening().setIndustry(UUID.randomUUID().toString());
             getJobOpeningDAO().addJobOpening(request.getJobOpening());
         } catch (Exception e) {
             throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());

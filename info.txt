@@ -19,7 +19,7 @@ API Endpoints:
 18. /getPendingMatches/?limit=#&last=#    (GET)
 
 NEW (Need END-POINTS and LAMBDAS!)
-19. /getopening/{job-opening-id}        (GET)
+19. /getopening/{industry}/{job-opening-id}        (GET)
 20. /getrecommendation/{recommendation-id}/{job-opening-id}     (GET)
 
 

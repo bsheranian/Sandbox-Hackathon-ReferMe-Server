@@ -36,7 +36,7 @@ public class MentorDAO {
   private final String SCHOOL_FIELD = "school";
   private final String IMAGE_URL_FIELD = "image_url";
   private final String SORT_KEY = "industry";
-  private final String RATING_FIELD = "gpa";
+  private final String RATING_FIELD = "rating";
   private final String MONEY_FIELD = "money";
   private final String YEARS_EXPERIENCE_FIELD = "years_experience";
 

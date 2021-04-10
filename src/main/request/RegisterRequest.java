@@ -10,7 +10,7 @@ public class RegisterRequest {
 
   public RegisterRequest() {}
 
-  public RegisterRequest(Student newUser, int userType) {
+  public RegisterRequest(User newUser, int userType) {
     this.newUser = newUser;
     this.userType = userType;
   }
