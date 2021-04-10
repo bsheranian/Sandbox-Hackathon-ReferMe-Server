@@ -1,20 +1,20 @@
 package service;
 
 import exception.SandboxServerErrorException;
-import request.declineMatchRequest;
-import response.declineMatchResponse;
+import request.DeclineMatchRequest;
+import response.DeclineMatchResponse;
 import util.HTTPRegex;
 
-public class DeclineMatchService extends ServiceTemplate<declineMatchRequest, declineMatchResponse>{
+public class DeclineMatchService extends ServiceTemplate<DeclineMatchRequest, DeclineMatchResponse>{
     @Override
-    public declineMatchResponse doRequest(declineMatchRequest request) {
+    public DeclineMatchResponse doRequest(DeclineMatchRequest request) {
         try {
             getMatchDAO().deleteMatch(request.getStudentId(), request.getMentorId());
         } catch (Exception e) {
             throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());
         }
 
-        return new declineMatchResponse("Match declined", true);
+        return new DeclineMatchResponse("Match declined", true);
     }
 }
 

@@ -3,17 +3,17 @@ package service;
 import exception.SandboxServerErrorException;
 import model.Pair;
 import model.User;
-import request.getPendingMatchesRequest;
-import response.getPendingMatchesResponse;
+import request.GetPendingMatchesRequest;
+import response.GetPendingMatchesResponse;
 import util.HTTPRegex;
 import util.UserType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetPendingMatchesService extends ServiceTemplate<getPendingMatchesRequest, getPendingMatchesResponse>{
+public class GetPendingMatchesService extends ServiceTemplate<GetPendingMatchesRequest, GetPendingMatchesResponse>{
     @Override
-    public getPendingMatchesResponse doRequest(getPendingMatchesRequest request) {
+    public GetPendingMatchesResponse doRequest(GetPendingMatchesRequest request) {
         boolean hasMorePages;
         List<User> pendingRequests = new ArrayList<>();
 
@@ -35,6 +35,6 @@ public class GetPendingMatchesService extends ServiceTemplate<getPendingMatchesR
             throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());
         }
 
-        return new getPendingMatchesResponse(pendingRequests, hasMorePages);
+        return new GetPendingMatchesResponse(pendingRequests, hasMorePages);
     }
 }

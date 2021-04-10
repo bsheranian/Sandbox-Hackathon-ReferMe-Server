@@ -2,14 +2,14 @@ package service;
 
 import exception.SandboxServerErrorException;
 import model.Match;
-import request.requestMatchRequest;
-import response.requestMatchResponse;
+import request.RequestMatchRequest;
+import response.RequestMatchResponse;
 import util.HTTPRegex;
 import util.UserType;
 
-public class RequestMatchService extends ServiceTemplate<requestMatchRequest, requestMatchResponse>{
+public class RequestMatchService extends ServiceTemplate<RequestMatchRequest, RequestMatchResponse>{
     @Override
-    public requestMatchResponse doRequest(requestMatchRequest request) {
+    public RequestMatchResponse doRequest(RequestMatchRequest request) {
         try {
 
             String username = getAuthDAO().getUsername(request.getToken());
@@ -26,6 +26,6 @@ public class RequestMatchService extends ServiceTemplate<requestMatchRequest, re
             throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());
         }
 
-        return new requestMatchResponse("Match requested", true);
+        return new RequestMatchResponse("Match requested", true);
     }
 }

@@ -4,16 +4,16 @@ import dao.MentorDAO;
 import exception.SandboxServerErrorException;
 import model.Mentor;
 import model.Pair;
-import request.getMyMentorsRequest;
-import response.getMyMentorsResponse;
+import request.GetMyMentorsRequest;
+import response.GetMyMentorsResponse;
 import util.HTTPRegex;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetMyMentorsService extends ServiceTemplate<getMyMentorsRequest, getMyMentorsResponse>{
+public class GetMyMentorsService extends ServiceTemplate<GetMyMentorsRequest, GetMyMentorsResponse>{
     @Override
-    public getMyMentorsResponse doRequest(getMyMentorsRequest request) {
+    public GetMyMentorsResponse doRequest(GetMyMentorsRequest request) {
 
         boolean hasMorePages;
         List<Mentor> mentors = new ArrayList<>();
@@ -36,6 +36,6 @@ public class GetMyMentorsService extends ServiceTemplate<getMyMentorsRequest, ge
 
         System.out.println("hasMorePages: " + hasMorePages);
 
-        return new getMyMentorsResponse(mentors, hasMorePages);
+        return new GetMyMentorsResponse(mentors, hasMorePages);
     }
 }

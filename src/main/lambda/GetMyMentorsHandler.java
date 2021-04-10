@@ -3,13 +3,13 @@ package lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import request.getMyMentorsRequest;
-import response.getMyMentorsResponse;
+import request.GetMyMentorsRequest;
+import response.GetMyMentorsResponse;
 import service.GetMyMentorsService;
 
-public class GetMyMentorsHandler implements RequestHandler<getMyMentorsRequest, getMyMentorsResponse> {
+public class GetMyMentorsHandler implements RequestHandler<GetMyMentorsRequest, GetMyMentorsResponse> {
   @Override
-  public getMyMentorsResponse handleRequest(getMyMentorsRequest request, Context context) {
+  public GetMyMentorsResponse handleRequest(GetMyMentorsRequest request, Context context) {
     LambdaLogger logger = context.getLogger();
     logger.log("Entering LoginHandler");
     logger.log("last: " + request.getLast());

@@ -1,15 +1,15 @@
 package service;
 
 import exception.SandboxServerErrorException;
-import request.isMatchedRequest;
+import request.IsMatchedRequest;
 import response.IsMatchedResponse;
 import util.HTTPRegex;
 import util.UserType;
 
-public class IsMatchedService extends ServiceTemplate<isMatchedRequest, IsMatchedResponse> {
+public class IsMatchedService extends ServiceTemplate<IsMatchedRequest, IsMatchedResponse> {
 
     @Override
-    public IsMatchedResponse doRequest(isMatchedRequest request) {
+    public IsMatchedResponse doRequest(IsMatchedRequest request) {
 
         boolean areMatched;
         boolean userRequestedMatch;

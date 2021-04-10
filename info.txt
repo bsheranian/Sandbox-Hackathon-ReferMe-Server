@@ -11,13 +11,16 @@ API Endpoints:
 10. /getopenings/{industry}/?limit=#&last=#  (GET)
 11. /postOpening    (POST)
 12. /recommendStudent     (POST)
-13. /getRecommendations/{job-opening-id}/?limit=#&last=#    (GET)
+13. /getrecommendations/{job-opening-id}/?limit=#&last=#    (GET)
 14. /requestMatch   (POST)
 15. /ismatched/{student-id}/{mentor-id}    (GET)
 16. /acceptMatch/{student-id}/{mentor-id}     (POST)
 17. /declineMatch/{student-id}/{mentor-id}      (POST)
 18. /getPendingMatches/?limit=#&last=#    (GET)
+
+NEW
 19. /getopening/{job-opening-id}        (GET)
+20. /getrecommendation/{job-opening-id}     (GET)
 
 
 REQUIREMENT BEFORE TESTING:

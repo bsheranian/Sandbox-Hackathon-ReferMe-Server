@@ -2,15 +2,15 @@ package service;
 
 import exception.SandboxServerErrorException;
 import model.Recommendation;
-import request.recommendStudentRequest;
-import response.recommendStudentResponse;
+import request.RecommendStudentRequest;
+import response.RecommendStudentResponse;
 import util.HTTPRegex;
 
 import java.util.UUID;
 
-public class RecommendStudentService extends ServiceTemplate<recommendStudentRequest, recommendStudentResponse>{
+public class RecommendStudentService extends ServiceTemplate<RecommendStudentRequest, RecommendStudentResponse>{
     @Override
-    public recommendStudentResponse doRequest(recommendStudentRequest request) {
+    public RecommendStudentResponse doRequest(RecommendStudentRequest request) {
         try {
             Recommendation newRecommendation = new Recommendation(UUID.randomUUID().toString(), request.getMessage(),
                 request.getMentorEmail(), request.getStudentEmail(), request.getJobOpeningId());
@@ -19,6 +19,6 @@ public class RecommendStudentService extends ServiceTemplate<recommendStudentReq
             throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());
         }
 
-        return new recommendStudentResponse("Successfully Recommended Student", true);
+        return new RecommendStudentResponse("Successfully Recommended Student", true);
     }
 }

@@ -1,23 +1,20 @@
 package service;
 
-import dao.MentorDAO;
 import dao.StudentDAO;
 import exception.SandboxServerErrorException;
-import model.Mentor;
 import model.Pair;
 import model.Student;
-import request.getMyStudentsRequest;
-import response.getMyMentorsResponse;
-import response.getMyStudentsResponse;
+import request.GetMyStudentsRequest;
+import response.GetMyStudentsResponse;
 import util.HTTPRegex;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetMyStudentsService extends ServiceTemplate<getMyStudentsRequest, getMyStudentsResponse>{
+public class GetMyStudentsService extends ServiceTemplate<GetMyStudentsRequest, GetMyStudentsResponse>{
 
     @Override
-    public getMyStudentsResponse doRequest(getMyStudentsRequest request) {
+    public GetMyStudentsResponse doRequest(GetMyStudentsRequest request) {
         boolean hasMorePages;
         List<Student> students = new ArrayList<>();
 
@@ -39,7 +36,7 @@ public class GetMyStudentsService extends ServiceTemplate<getMyStudentsRequest, 
 
         System.out.println("hasMorePages: " + hasMorePages);
 
-        return new getMyStudentsResponse(students, hasMorePages);
+        return new GetMyStudentsResponse(students, hasMorePages);
     }
 
 }

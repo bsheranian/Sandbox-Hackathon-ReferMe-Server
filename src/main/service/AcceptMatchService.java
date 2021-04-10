@@ -2,20 +2,20 @@ package service;
 
 import exception.SandboxServerErrorException;
 import request.AcceptMatchRequest;
-import response.acceptMatchResponse;
+import response.AcceptMatchResponse;
 import util.HTTPRegex;
 
-public class AcceptMatchService extends ServiceTemplate<AcceptMatchRequest, acceptMatchResponse>{
+public class AcceptMatchService extends ServiceTemplate<AcceptMatchRequest, AcceptMatchResponse>{
 
 
     @Override
-    public acceptMatchResponse doRequest(AcceptMatchRequest request) {
+    public AcceptMatchResponse doRequest(AcceptMatchRequest request) {
         try {
             getMatchDAO().acceptMatch(request.getStudentId(), request.getMentorId());
         } catch (Exception e) {
             throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());
         }
 
-        return new acceptMatchResponse("Match accepted", true);
+        return new AcceptMatchResponse("Match accepted", true);
     }
 }

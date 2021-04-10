@@ -2,12 +2,12 @@ package service;
 
 import exception.SandboxServerErrorException;
 import model.Mentor;
-import request.getMentorRequest;
-import response.getMentorResponse;
+import request.GetMentorRequest;
+import response.GetMentorResponse;
 
-public class GetMentorService extends ServiceTemplate<getMentorRequest, getMentorResponse>{
+public class GetMentorService extends ServiceTemplate<GetMentorRequest, GetMentorResponse>{
     @Override
-    public getMentorResponse doRequest(getMentorRequest request) {
+    public GetMentorResponse doRequest(GetMentorRequest request) {
         Mentor newMentor;
         try {
             newMentor = getMentorDAO().getMentor(request.getMentorId(), request.getIndustry());
@@ -15,6 +15,6 @@ public class GetMentorService extends ServiceTemplate<getMentorRequest, getMento
             throw new SandboxServerErrorException("[Server Error]: " + e.getMessage());
         }
 
-        return new getMentorResponse(newMentor);
+        return new GetMentorResponse(newMentor);
     }
 }

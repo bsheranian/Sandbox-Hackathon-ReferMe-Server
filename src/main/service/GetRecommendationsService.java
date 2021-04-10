@@ -1,20 +1,18 @@
 package service;
 
 import exception.SandboxServerErrorException;
-import model.JobOpening;
 import model.Pair;
 import model.Recommendation;
-import request.getRecommendationsRequest;
-import response.getOpeningsResponse;
-import response.getRecommendationsResponse;
+import request.GetRecommendationsRequest;
+import response.GetRecommendationsResponse;
 import util.HTTPRegex;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetRecommendationsService extends ServiceTemplate<getRecommendationsRequest, getRecommendationsResponse>{
+public class GetRecommendationsService extends ServiceTemplate<GetRecommendationsRequest, GetRecommendationsResponse>{
     @Override
-    public getRecommendationsResponse doRequest(getRecommendationsRequest request) {
+    public GetRecommendationsResponse doRequest(GetRecommendationsRequest request) {
         boolean hasMorePages;
         List<Recommendation> recommendations = new ArrayList<>();
 
@@ -26,6 +24,6 @@ public class GetRecommendationsService extends ServiceTemplate<getRecommendation
             throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());
         }
 
-        return new getRecommendationsResponse(recommendations, hasMorePages);
+        return new GetRecommendationsResponse(recommendations, hasMorePages);
     }
 }

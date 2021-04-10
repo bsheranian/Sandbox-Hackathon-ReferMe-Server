@@ -1,19 +1,17 @@
 package service;
 
 import exception.SandboxServerErrorException;
-import model.Mentor;
 import model.Pair;
 import model.Student;
-import request.getStudentsRequest;
-import response.getMentorsResponse;
-import response.getStudentsResponse;
+import request.GetStudentsRequest;
+import response.GetStudentsResponse;
 
 import java.util.List;
 
-public class GetStudentsService extends ServiceTemplate<getStudentsRequest, getStudentsResponse> {
+public class GetStudentsService extends ServiceTemplate<GetStudentsRequest, GetStudentsResponse> {
 
     @Override
-    public getStudentsResponse doRequest(getStudentsRequest request) {
+    public GetStudentsResponse doRequest(GetStudentsRequest request) {
         Pair<List<Student>, Boolean> outcome;
 
         try {
@@ -24,6 +22,6 @@ public class GetStudentsService extends ServiceTemplate<getStudentsRequest, getS
             throw new SandboxServerErrorException("[Server Error]: " + e.getMessage());
         }
 
-        return new getStudentsResponse(outcome.getFirst(), outcome.getSecond());
+        return new GetStudentsResponse(outcome.getFirst(), outcome.getSecond());
     }
 }
