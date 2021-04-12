@@ -1,3 +1,9 @@
+
+todo:
+- Add getCompany/industry/company-id and getCompanies/industry
+
+
+
 API Endpoints:
 
 /acceptmatch      (POST)

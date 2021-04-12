@@ -13,6 +13,7 @@ public class IsMatchedService extends ServiceTemplate<IsMatchedRequest, IsMatche
 
         boolean areMatched;
         boolean userRequestedMatch;
+        boolean otherUserRequestedMatch;
 
         try {
             String username = getAuthDAO().getUsername(request.getToken());
@@ -20,15 +21,17 @@ public class IsMatchedService extends ServiceTemplate<IsMatchedRequest, IsMatche
             if (userType == UserType.STUDENT) {
                 areMatched = getMatchDAO().areMatched(username, request.getRequestedUserId());
                 userRequestedMatch = getMatchDAO().userRequestedMatch(username, request.getRequestedUserId(), true);
+                otherUserRequestedMatch = getMatchDAO().userRequestedMatch(username, request.getRequestedUserId(), false);
             } else {
                 areMatched = getMatchDAO().areMatched(request.getRequestedUserId(), username);
                 userRequestedMatch = getMatchDAO().userRequestedMatch(username, request.getRequestedUserId(), false);
+                otherUserRequestedMatch = getMatchDAO().userRequestedMatch(username, request.getRequestedUserId(), true);
             }
 
         } catch (Exception e) {
             throw new SandboxServerErrorException(HTTPRegex.SERVER_ERROR + e.getMessage());
         }
 
-        return new IsMatchedResponse(areMatched, userRequestedMatch);
+        return new IsMatchedResponse(areMatched, userRequestedMatch, otherUserRequestedMatch);
     }
 }

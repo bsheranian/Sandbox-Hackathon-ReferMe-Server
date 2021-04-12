@@ -15,6 +15,9 @@ public class GetMentorsHandler implements RequestHandler<GetMentorsRequest, GetM
     logger.log("last: " + request.getLast());
     logger.log("limit: " + request.getLimit());
     logger.log("industry: " + request.getIndustry());
+
     return new GetMentorsService().doRequest(request);
   }
+
+
 }
