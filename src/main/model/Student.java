@@ -7,11 +7,11 @@ public class Student extends User {
   private String school;
   private String major;
   private String industry;
-  private float gpa;
+  private double gpa;
 
   public Student() {}
 
-  public Student(String email, String password, String imageUrl, String name, String school, String major, String industry, float gpa) {
+  public Student(String email, String password, String imageUrl, String name, String school, String major, String industry, double gpa) {
     super(email, password, imageUrl, name);
     this.school = school;
     this.major = major;
@@ -43,11 +43,11 @@ public class Student extends User {
     this.industry = industry;
   }
 
-  public float getGpa() {
+  public double getGpa() {
     return gpa;
   }
 
-  public void setGpa(float gpa) {
+  public void setGpa(double gpa) {
     this.gpa = gpa;
   }
 
@@ -57,7 +57,7 @@ public class Student extends User {
     if (o == null || getClass() != o.getClass()) return false;
     if (!super.equals(o)) return false;
     Student student = (Student) o;
-    return Float.compare(student.gpa, gpa) == 0 &&
+    return Double.compare(student.gpa, gpa) == 0 &&
         Objects.equals(school, student.school) &&
         Objects.equals(major, student.major) &&
         Objects.equals(industry, student.industry);

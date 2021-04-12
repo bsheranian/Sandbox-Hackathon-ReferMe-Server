@@ -55,8 +55,8 @@ public class MentorDAO {
         .withPrimaryKey(PRIMARY_KEY, newMentor.getEmail(), SORT_KEY, newMentor.getIndustry())
         .withString(NAME_FIELD, newMentor.getName())
         .withString(SCHOOL_FIELD, newMentor.getSchool())
-        .withFloat(MONEY_FIELD, newMentor.getMoneyMade())
-        .withFloat(RATING_FIELD, newMentor.getRating())
+        .withDouble(MONEY_FIELD, newMentor.getMoneyMade())
+        .withDouble(RATING_FIELD, newMentor.getRating())
         .withInt(YEARS_EXPERIENCE_FIELD, newMentor.getYearsExperience())
         .withString(IMAGE_URL_FIELD, newMentor.getImageUrl()));
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());

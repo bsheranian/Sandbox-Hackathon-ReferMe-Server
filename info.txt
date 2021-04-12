@@ -1,6 +1,15 @@
 
-todo:
-- Add getCompany/industry/company-id and getCompanies/industry
+todo: YES
+- ADD String 'companyImageUrl' to JobOpening class
+- ADD boolean 'accepted' to Recommendation class
+- ADD String 'bio' to Student and Mentor classes
+- ADD String 'jobTitle' to JobOpening class
+
+- Add /getCompany/{company-id}
+- Add /getMyOpenings/{company-id}
+
+todo: ???
+- Add getCompanies/{industry}
 
 
 

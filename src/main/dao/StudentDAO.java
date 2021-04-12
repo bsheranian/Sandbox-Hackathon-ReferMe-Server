@@ -66,7 +66,7 @@ public class StudentDAO {
         .withString(NAME_FIELD, newStudent.getName())
         .withString(SCHOOL_FIELD, newStudent.getSchool())
         .withString(MAJOR_FIELD, newStudent.getMajor())
-        .withFloat(GPA_FIELD, newStudent.getGpa())
+        .withDouble(GPA_FIELD, newStudent.getGpa())
         .withString(IMAGE_URL_FIELD, newStudent.getImageUrl()));
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
   }

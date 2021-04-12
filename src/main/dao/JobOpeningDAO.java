@@ -38,6 +38,7 @@ public class JobOpeningDAO {
   private final String TABLE_NAME = "job_opening";
   private final String PRIMARY_KEY = "id";
   private final String DESCRIPTION_FIELD = "description";
+  private final String COMPANY_ID_FIELD = "company_id";
   private final String SORT_KEY = "industry";
 
 
@@ -53,6 +54,7 @@ public class JobOpeningDAO {
     System.out.println("Adding a new item...");
     PutItemOutcome outcome = table.putItem(new Item()
         .withPrimaryKey(PRIMARY_KEY, newOpening.getId(), SORT_KEY, newOpening.getIndustry())
+        .withString(COMPANY_ID_FIELD, newOpening.getCompanyId())
         .withString(DESCRIPTION_FIELD, newOpening.getJobDescription()));
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
   }
@@ -65,6 +67,7 @@ public class JobOpeningDAO {
     JobOpening jobOpening = new JobOpening();
     jobOpening.setId(item.getString(PRIMARY_KEY));
     jobOpening.setIndustry(industry);
+    jobOpening.setCompanyId(item.getString(COMPANY_ID_FIELD));
     jobOpening.setJobDescription(item.getString(DESCRIPTION_FIELD));
 
     return jobOpening;
@@ -116,6 +119,7 @@ public class JobOpeningDAO {
       JobOpening jobOpening = new JobOpening();
       jobOpening.setId(item.getString(PRIMARY_KEY));
       jobOpening.setIndustry(industry);
+      jobOpening.setCompanyId(item.getString(COMPANY_ID_FIELD));
       jobOpening.setJobDescription(item.getString(DESCRIPTION_FIELD));
 
       jobOpenings.add(jobOpening);

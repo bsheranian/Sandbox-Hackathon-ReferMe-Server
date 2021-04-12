@@ -46,4 +46,12 @@ public class CompanyDAO {
         .withString(IMAGE_URL_FIELD, newCompany.getWebsiteUrl()));
     System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
   }
+
+  public void deleteCompany(String username) {
+    DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
+        .withPrimaryKey(new PrimaryKey(PRIMARY_KEY, username));
+    System.out.println("Attempting a conditional delete...");
+    table.deleteItem(deleteItemSpec);
+    System.out.println("DeleteItem succeeded");
+  }
 }

@@ -5,8 +5,10 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import exception.SandboxEmailAlreadyAssociatedWithUserException;
 import exception.SandboxLoginException;
@@ -32,9 +34,17 @@ public class CredDAO {
     this.table = dynamoDB.getTable(TABLE_NAME);
   }
 
+  public void deleteCred(String username) {
+    DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
+        .withPrimaryKey(new PrimaryKey(PRIMARY_KEY, username));
+    System.out.println("Attempting a conditional delete...");
+    table.deleteItem(deleteItemSpec);
+    System.out.println("DeleteItem succeeded");
+  }
+
   public void registerCredentials(String username, String password, int userType) {
     GetItemSpec spec = new GetItemSpec().withPrimaryKey(PRIMARY_KEY, username);
-    System.out.println("Attempting to read the item...");
+    System.out.println("Attempting to read the item..." + username);
     Item item = table.getItem(spec);
     System.out.println("GetItem succeeded: " + item);
 

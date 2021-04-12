@@ -1,0 +1,112 @@
+API Endpoints:
+- ALL PATHS ARE LOWER CASE (NOT CAMEL CASE!!!)
+- ASSUME that Authorization header is always required (except for login, register, and logout)
+
+/login      (POST)
+/register/student   (POST)
+/register/mentor   (POST)
+/register/company   (POST)
+/logout     (POST)
+/getmentors/{industry}/?limit=#&last=#  (GET)
+/getmymentors/{industry}/?limit=#&last=#   (GET)
+/getmentor/{industry}/{mentor-id}      (GET)
+/getstudents/{industry}/?limit=#&last=#     (GET)
+/getmystudents/{industry}/?limit=#&last=#   (GET)
+/getstudent/{industry}/{student-id}     (GET)
+/getopenings/{industry}/?limit=#&last=#  (GET)
+/getopening/{industry}/{job-opening-id} (GET)
+/postopening    (POST)
+/recommendstudent     (POST)
+/getrecommendation/{recommendation-id}/{job-opening-id} (GET)
+/getrecommendations/{job-opening-id}/?limit=#&last=#    (GET)
+/requestmatch   (POST)
+/ismatched/{requested-user-id}    (GET)
+/acceptmatch    (POST)
+/declinematch    (POST)
+/getpendingmatches/{industry}/?limit=#&last=#    (GET)
+
+
+
+
+POST OPENING: 
+request:
+{
+    "jobOpening":{
+        "industry":"industry",
+        "jobDescription":"Software Engineer"
+    }
+}
+response:
+{
+  "message": "Opening posted",
+  "success": true
+}
+
+
+RECOMMEND STUDENT:
+request:
+{ 
+    "studentEmail":"0000AAA new student email",
+    "mentorEmail":"mentor",
+    "message":"message",
+    "jobOpeningId":"id=0"
+}
+response:
+{
+  "message": "Successfully Recommended Student",
+  "success": true
+}
+
+
+REQUEST MATCH:
+request: (Auth token required)
+{
+    "requestedUserId":"@Timmy"
+}
+
+
+REGISTER COMPANY:
+request:
+{
+    "newCompany":{
+        "email":"new email",
+        "password":"new pass",
+        "name":"new name",
+        "imageUrl":"new url",
+        "websiteUrl":"new web",
+        "description":"new description"
+    }
+}
+
+REGISTER MENTOR:
+request:
+{
+    "newMentor":{
+        "email":"new email",
+        "password":"new pass",
+        "name":"new name",
+        "imageUrl":"new url",
+        "industry":"new web",
+        "school":"new web",
+        "rating":"",
+        "moneyMade":0,
+        "yearsExperience":8
+    }
+}
+
+REGISTER STUDENT:
+request:
+{
+    "newStudent":{
+        "email":"new email",
+        "password":"new pass",
+        "name":"new name",
+        "imageUrl":"new url",
+        "industry":"new web",
+        "school":"new web",
+        "gpa":4,
+        "major":"CS"
+    }
+}
+
+

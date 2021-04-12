@@ -5,14 +5,16 @@ import java.util.Objects;
 public class JobOpening {
   private String id;
   private String industry;
+  private String companyId;
   private String jobDescription;
 
   public JobOpening() {}
 
-  public JobOpening(String id, String industry, String jobDescription) {
+  public JobOpening(String id, String industry, String jobDescription, String companyId) {
     this.id = id;
     this.industry = industry;
     this.jobDescription = jobDescription;
+    this.companyId = companyId;
   }
 
   public String getId() {
@@ -39,18 +41,11 @@ public class JobOpening {
     this.jobDescription = jobDescription;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    JobOpening that = (JobOpening) o;
-    return Objects.equals(id, that.id) &&
-        Objects.equals(industry, that.industry) &&
-        Objects.equals(jobDescription, that.jobDescription);
+  public String getCompanyId() {
+    return companyId;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, industry, jobDescription);
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
   }
 }

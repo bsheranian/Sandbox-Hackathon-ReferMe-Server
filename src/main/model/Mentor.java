@@ -6,13 +6,13 @@ public class Mentor extends User {
 
   private String school;
   private String industry;
-  private float rating;   //out of 5
+  private double rating;   //out of 5
   private int yearsExperience;
-  private float moneyMade;
+  private double moneyMade;
 
   public Mentor() {}
 
-  public Mentor(String email, String password, String imageUrl, String name, String school, String industry, float rating, int yearsExperience, float moneyMade) {
+  public Mentor(String email, String password, String imageUrl, String name, String school, String industry, double rating, int yearsExperience, double moneyMade) {
     super(email, password, imageUrl, name);
     this.school = school;
     this.industry = industry;
@@ -37,7 +37,7 @@ public class Mentor extends User {
     this.industry = industry;
   }
 
-  public float getRating() {
+  public double getRating() {
     return rating;
   }
 
@@ -53,7 +53,7 @@ public class Mentor extends User {
     this.yearsExperience = yearsExperience;
   }
 
-  public float getMoneyMade() {
+  public double getMoneyMade() {
     return moneyMade;
   }
 
@@ -67,9 +67,9 @@ public class Mentor extends User {
     if (o == null || getClass() != o.getClass()) return false;
     if (!super.equals(o)) return false;
     Mentor mentor = (Mentor) o;
-    return Float.compare(mentor.rating, rating) == 0 &&
+    return Double.compare(mentor.rating, rating) == 0 &&
         yearsExperience == mentor.yearsExperience &&
-        Float.compare(mentor.moneyMade, moneyMade) == 0 &&
+        Double.compare(mentor.moneyMade, moneyMade) == 0 &&
         Objects.equals(school, mentor.school) &&
         Objects.equals(industry, mentor.industry);
   }
