@@ -5,21 +5,21 @@ An AWS server for an app called ReferMe that solves the internship/job recruitin
 
 POST:
 * /login
-          * request:
-          ```
-          {
-            "username":"text",
-            "password":"text",
-            "userType":0
-          }
-          ```
+    * request:
+         ```
+         {
+                  "username":"text",
+                  "password":"text",
+                  "userType":0
+         }
+         ```
     * response:
-       ```
-       {
-         "isSuccess":true,
-         "message":"Login successful"
-       }
-       ```
+         ```
+         {
+                  "isSuccess":true,
+                  "message":"Login successful"
+         }
+         ```
 * /logout
 * /register/student
 * /register/mentor
