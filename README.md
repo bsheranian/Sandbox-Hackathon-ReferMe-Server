@@ -31,10 +31,11 @@ GET:
 * /getopenings/{industry}?limit=10&last=null
 * /getpendingmatches/{industry}?limit=10&last=null
 * /getrecommendation/{recommendation-id}/{job-opening-id}
+* /getrecommendations/{job-opening-id}?limit=10&last=null
 * /ismatched/{other-user-id}
 
 TODO:
-* /getrecommendations/{industry}/{job-opening-id}?limit=10&last=null
+
 * /getcompanies/{industry}?limit=10&last=null
 * /getcompany/{company-id}
 * /getmyopenings/{company-id}?limit=10&last=null
@@ -79,9 +80,10 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username": "",
-      "password": "",
-      "userType": 0
+      "authToken": {
+         "token": "",
+         "username": ""
+      }
    }
    
    HTTP 200 RESPONSE JSON:
@@ -102,7 +104,7 @@ TODO:
          "imageUrl": "",
          "industry": "",
          "school": "",
-         "gpa": 0,
+         "gpa": 0.0,
          "major": ""
       }
    }
@@ -128,8 +130,8 @@ TODO:
          "imageUrl": "",
          "industry": "",
          "school": "",
-         "rating": "",
-         "moneyMade": 0,
+         "rating": 0.0,
+         "moneyMade": 0.0,
          "yearsExperience": 0
       }
    }
@@ -186,9 +188,8 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username": "text",
-      "password": "text",
-      "userType": 0
+      "studentId": "",
+      "mentorId": ""
    }
    
    HTTP 200 RESPONSE JSON:
@@ -202,9 +203,8 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username":"text",
-      "password":"text",
-      "userType":0
+      "studentId": "",
+      "mentorId": ""
    }
    
    HTTP 200 RESPONSE JSON:
@@ -253,8 +253,16 @@ TODO:
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+      "mentor": {
+         "email": "",
+         "name": "",
+         "imageUrl": "",
+         "school": "",
+         "industry": "",
+         "rating": 0.0,
+         "yearsExperience": 0,
+         "moneyMade": 0.0
+      }
    }
    ```
 * /getmentors/{industry}?limit=10&last=null
@@ -262,8 +270,29 @@ TODO:
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+      "mentors": [
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "industry": "",
+            "rating": 0.0,
+            "yearsExperience": 0,
+            "moneyMade": 0.0
+         },
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "industry": "",
+            "rating": 0.0,
+            "yearsExperience": 0,
+            "moneyMade": 0.0
+         }
+      ],
+      "hasMorePages": true
    }
    ```
 * /getmymentors/{industry}?limit=10&last=null
@@ -271,8 +300,29 @@ TODO:
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+      "mentors": [
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "industry": "",
+            "rating": 0.0,
+            "yearsExperience": 0,
+            "moneyMade": 0.0
+         },
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "industry": "",
+            "rating": 0.0,
+            "yearsExperience": 0,
+            "moneyMade": 0.0
+         }
+      ],
+      "hasMorePages": true
    }
    ```
 * /getstudent/{industry}/{student-id}
@@ -280,8 +330,15 @@ TODO:
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+      "student" : {
+         "email": "",
+         "name": "",
+         "imageUrl": "",
+         "school": "",
+         "major": "",
+         "industry": "",
+         "gpa": 0.0
+      }
    }
    ```
 * /getstudents/{industry}?limit=10&last=null
@@ -289,8 +346,27 @@ TODO:
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+      "students": [
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "major": "",
+            "industry": "",
+            "gpa": 0.0
+         },
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "major": "",
+            "industry": "",
+            "gpa": 0.0
+         }
+      ],
+      "hasMorePages": true
    }
    ```
 * /getmystudents/{industry}?limit=10&last=null
@@ -298,8 +374,27 @@ TODO:
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+      "students": [
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "major": "",
+            "industry": "",
+            "gpa": 0.0
+         },
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "major": "",
+            "industry": "",
+            "gpa": 0.0
+         }
+      ],
+      "hasMorePages": true
    }
    ```
 * /getopening/{industry}/{opening-id}
@@ -307,8 +402,11 @@ TODO:
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+      "jobOpening": {
+         "id": "",
+         "industry": "",
+         "jobDescription": ""
+      }
    }
    ```
 * /getopenings/{industry}?limit=10&last=null
@@ -316,17 +414,77 @@ TODO:
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+      "jobOpenings": [
+         {
+            "id": "",
+            "industry": "",
+            "jobDescription": ""
+         },
+         {
+            "id": "",
+            "industry": "",
+            "jobDescription": ""
+         }
+      ],
+      "hasMorePages": true
    }
    ```
-* /getpendingmatches/{industry}?limit=10&last=null
+* /getpendingmatches/formentor/{industry}?limit=10&last=null
 
    ```
-   HTTP 200 RESPONSE JSON:
+   HTTP 200 RESPONSE JSON FOR MENTORS:
    {
-      "success": true,
-      "message": ""
+      "pendingMatches": [
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "major": "",
+            "industry": "",
+            "gpa": 0.0
+         },
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "major": "",
+            "industry": "",
+            "gpa": 0.0
+         }
+      ],
+      "hasMorePages": true
+   }
+   ```
+* /getpendingmatches/forstudent/{industry}?limit=10&last=null
+
+   ```
+   HTTP 200 RESPONSE JSON FOR STUDENTS:
+   {
+      "pendingMatches": [
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "industry": "",
+            "rating": 0.0,
+            "yearsExperience": 0,
+            "moneyMade": 0.0
+         },
+         {
+            "email": "",
+            "name": "",
+            "imageUrl": "",
+            "school": "",
+            "industry": "",
+            "rating": 0.0,
+            "yearsExperience": 0,
+            "moneyMade": 0.0
+         }
+      ],
+      "hasMorePages": true
    }
    ```
 * /getrecommendation/{recommendation-id}/{job-opening-id}
@@ -334,16 +492,46 @@ TODO:
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+      "recommendation": {
+         "id": "",
+         "message": "",
+         "mentorEmail": "",
+         "studentEmail": "",
+         "jobOpeningId": ""
+      }
    }
+   ```
+* /getrecommendations/{job-opening-id}?limit=10&last=null
+
+   ```
+      HTTP 200 RESPONSE JSON:
+      {
+         "recommendations": [
+            {
+               "id": "",
+               "message": "",
+               "mentorEmail": "",
+               "studentEmail": "",
+               "jobOpeningId": ""
+            },
+            {
+               "id": "",
+               "message": "",
+               "mentorEmail": "",
+               "studentEmail": "",
+               "jobOpeningId": ""
+            }
+         ],
+         "hasMorePages": true
+      }
    ```
 * /ismatched/{other-user-id}
 
    ```
    HTTP 200 RESPONSE JSON:
    {
-      "success": true,
-      "message": ""
+     "areMatched": false,
+     "userRequestedMatch": false,
+     "otherUserRequestedMatch": false
    }
    ```
