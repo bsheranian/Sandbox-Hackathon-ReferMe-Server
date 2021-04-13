@@ -1,7 +1,7 @@
 # Sandbox Hackathon ReferMe Server
 An AWS server for an app called ReferMe that solves the internship/job recruiting problem for both students and employers.
 
-# API Gateway Endpoints:
+## API Gateway Endpoints:
 
 
 POST:
@@ -16,6 +16,7 @@ POST:
 
 GET:
 
+## JSON Request and Response Models
 
 POST:
 * /login
