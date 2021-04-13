@@ -29,14 +29,14 @@ GET:
    ```
    REQUEST JSON:
    {
-      "username":"text",
-      "password":"text",
+      "username":"",
+      "password":"",
       "userType":0
    }
    RESPONSE JSON:
    {
       "isSuccess":true,
-      "message":"Login successful"
+      "message":""
    }
    ```
 * /logout
