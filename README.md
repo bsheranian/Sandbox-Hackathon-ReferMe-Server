@@ -18,13 +18,12 @@ Demo Login Credentials:
 
 ## API Gateway Endpoints:
 
-
 POST:
 * /login
 * /register/student
 * /register/mentor
 * /register/company
-* /requestmatch
+* /requestmatch-----------------------------------------------------(Authorization)
 * /acceptmatch
 * /declinematch
 * /postopening
@@ -33,24 +32,24 @@ POST:
 GET:
 * /getmentor/{industry}/{mentor-id}
 * /getmentors/{industry}?limit=10&last=null
-* /getmymentors/{industry}?limit=10&last=null
+* /getmymentors/{industry}?limit=10&last=null-----------------------(Authorization)                       
 * /getstudent/{industry}/{student-id}
 * /getstudents/{industry}?limit=10&last=null
-* /getmystudents/{industry}?limit=10&last=null
+* /getmystudents/{industry}?limit=10&last=null----------------------(Authorization)
 * /getopening/{industry}/{opening-id}
 * /getopenings/{industry}?limit=10&last=null
 * /getrecommendation/{recommendation-id}/{job-opening-id}
 * /getrecommendations/{job-opening-id}?limit=10&last=null
-* /ismatched/{other-user-id}
+* /ismatched/{other-user-id}----------------------------------------(Authorization)                             
 
 TODO:
-* /getpendingmatches/forstudent/{industry}?limit=10&last=null
-* /getpendingmatches/formentor/{industry}?limit=10&last=null
+* /getpendingmatches/forstudent/{industry}?limit=10&last=null-------(Authorization)
+* /getpendingmatches/formentor/{industry}?limit=10&last=null--------(Authorization)
 * /getcompanies/{industry}?limit=10&last=null
 * /getcompany/{company-id}
 * /getmyopenings/{company-id}?limit=10&last=null
 * /isaccepted/{job-opening-id}/{recommendation-id}
-* /getmyrecommendations?limit=10&last=null
+* /getmyrecommendations?limit=10&last=null--------------------------(Authorization)
 
 
 ## HTTP Responses
