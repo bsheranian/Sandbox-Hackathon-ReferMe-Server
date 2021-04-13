@@ -64,6 +64,7 @@ TODO:
       "password": "",
       "userType": 0
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "success": true,
@@ -82,6 +83,7 @@ TODO:
       "password": "",
       "userType": 0
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "success": true,
@@ -104,6 +106,7 @@ TODO:
          "major": ""
       }
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "success": true,
@@ -130,6 +133,7 @@ TODO:
          "yearsExperience": 0
       }
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "success": true,
@@ -153,6 +157,7 @@ TODO:
          "description": ""
       }
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "success": true,
@@ -169,6 +174,7 @@ TODO:
    {
       "requestedUserId": ""
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "success": true,
@@ -184,6 +190,7 @@ TODO:
       "password": "text",
       "userType": 0
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "success": true,
@@ -199,6 +206,7 @@ TODO:
       "password":"text",
       "userType":0
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "success": true,
@@ -217,6 +225,7 @@ TODO:
          "jobDescription": ""
       }
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "message": "",
@@ -232,6 +241,7 @@ TODO:
       "message":  "",
       "jobOpeningId": ""
    }
+   
    HTTP 200 RESPONSE JSON:
    {
       "message": "",
