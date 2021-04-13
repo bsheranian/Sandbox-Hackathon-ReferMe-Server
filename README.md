@@ -20,12 +20,110 @@ POST:
    }
    ```
 * /logout
+
+   ```
+   REQUEST JSON:
+   {
+      "username":"text",
+      "password":"text",
+      "userType":0
+   }
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
 * /register/student
+
+   ```
+   REQUEST JSON:
+   {
+      "username":"text",
+      "password":"text",
+      "userType":0
+   }
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
 * /register/mentor
+
+   ```
+   REQUEST JSON:
+   {
+      "username":"text",
+      "password":"text",
+      "userType":0
+   }
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
 * /register/company
+
+   ```
+   REQUEST JSON:
+   {
+      "username":"text",
+      "password":"text",
+      "userType":0
+   }
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
 * /requestmatch/{user-id-to-match-with}
+
+   ```
+   REQUEST JSON:
+   {
+      "username":"text",
+      "password":"text",
+      "userType":0
+   }
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
 * /acceptmatch/{user-id-to-match-with}
+
+   ```
+   REQUEST JSON:
+   {
+      "username":"text",
+      "password":"text",
+      "userType":0
+   }
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
 * /declinematch/{user-id-to-match-with}
+
+   ```
+   REQUEST JSON:
+   {
+      "username":"text",
+      "password":"text",
+      "userType":0
+   }
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
 
 GET:
 
