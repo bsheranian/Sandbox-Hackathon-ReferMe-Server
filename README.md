@@ -8,16 +8,16 @@ POST:
     * request:
          ```
          {
-                  "username":"text",
-                  "password":"text",
-                  "userType":0
+            "username":"text",
+            "password":"text",
+            "userType":0
          }
          ```
     * response:
          ```
          {
-                  "isSuccess":true,
-                  "message":"Login successful"
+            "isSuccess":true,
+            "message":"Login successful"
          }
          ```
 * /logout
