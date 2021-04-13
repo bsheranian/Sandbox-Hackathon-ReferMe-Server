@@ -3,6 +3,11 @@ An AWS server for an app called ReferMe that solves the internship/job recruitin
 
 https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon
 
+TRY THIS:
+
+https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon/getmentors/demo/limit=10
+
+
 ## API Gateway Endpoints:
 
 
