@@ -11,7 +11,7 @@ Demo Login Credentials:
 * Mentor: 
    * username: mentordemo@referme.com
    * password: demo 
-* Student: 
+* Employer: 
    * username: employerdemo@referme.com
    * password: demo 
 
