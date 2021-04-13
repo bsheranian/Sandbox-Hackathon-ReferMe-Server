@@ -2,9 +2,18 @@
 An AWS server for an app called ReferMe that solves the internship/job recruiting problem for both students and employers.
 
 Server link: https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon
-
 Example path to try: https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon/getmentors/demo?limit=10&last=null
 
+Demo Login Credentials:
+* Student: 
+   * username: studentdemo@referme.com
+   * password: demo
+* Mentor: 
+   * username: mentordemo@referme.com
+   * password: demo 
+* Student: 
+   * username: employerdemo@referme.com
+   * password: demo 
 
 ## API Gateway Endpoints:
 
@@ -29,13 +38,13 @@ GET:
 * /getmystudents/{industry}?limit=10&last=null
 * /getopening/{industry}/{opening-id}
 * /getopenings/{industry}?limit=10&last=null
-* /getpendingmatches/{industry}?limit=10&last=null
 * /getrecommendation/{recommendation-id}/{job-opening-id}
 * /getrecommendations/{job-opening-id}?limit=10&last=null
 * /ismatched/{other-user-id}
 
 TODO:
-
+* /getpendingmatches/forstudent/{industry}?limit=10&last=null
+* /getpendingmatches/formentor/{industry}?limit=10&last=null
 * /getcompanies/{industry}?limit=10&last=null
 * /getcompany/{company-id}
 * /getmyopenings/{company-id}?limit=10&last=null
