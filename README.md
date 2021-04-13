@@ -5,7 +5,7 @@ https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon
 
 TRY THIS:
 
-https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon/getmentors/demo/limit=10
+https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon/getmentors/demo?limit=10
 
 
 ## API Gateway Endpoints:
