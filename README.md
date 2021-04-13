@@ -5,7 +5,7 @@ An AWS server for an app called ReferMe that solves the internship/job recruitin
 
 POST:
 * /login
-    * request:
+         REQUEST JSON:
          ```
          {
             "username":"text",
@@ -13,7 +13,7 @@ POST:
             "userType":0
          }
          ```
-    * response:
+         RESPONSE JSON:
          ```
          {
             "isSuccess":true,
