@@ -18,7 +18,7 @@ GET:
 
 ## JSON Request and Response Models
 
-POST:
+
 * /login
 
    ```
@@ -139,6 +139,4 @@ POST:
       "message":"Login successful"
    }
    ```
-
-GET:
 
