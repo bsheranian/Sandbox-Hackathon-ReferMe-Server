@@ -60,14 +60,17 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username":"",
-      "password":"",
-      "userType":0
+      "username": "",
+      "password": "",
+      "userType": 0
    }
    HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":""
+      "success": true,
+      "authToken": {
+         "token": "",
+         "username": ""
+      }
    }
    ```
 * /logout
@@ -75,14 +78,14 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username":"text",
-      "password":"text",
-      "userType":0
+      "username": "",
+      "password": "",
+      "userType": 0
    }
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /register/student
@@ -90,14 +93,24 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username":"text",
-      "password":"text",
-      "userType":0
+      "newStudent": {
+         "email": "",
+         "password": "",
+         "name": "",
+         "imageUrl": "",
+         "industry": "",
+         "school": "",
+         "gpa": 0,
+         "major": ""
+      }
    }
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "authToken": {
+         "token": "",
+         "username": ""
+      }
    }
    ```
 * /register/mentor
@@ -105,14 +118,25 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username":"text",
-      "password":"text",
-      "userType":0
+      "newMentor": {
+         "email": "",
+         "password": "",
+         "name": "",
+         "imageUrl": "",
+         "industry": "",
+         "school": "",
+         "rating": "",
+         "moneyMade": 0,
+         "yearsExperience": 0
+      }
    }
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "authToken": {
+         "token": "",
+         "username": ""
+      }
    }
    ```
 * /register/company
@@ -120,14 +144,22 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username":"text",
-      "password":"text",
-      "userType":0
+      "newCompany":{
+         "email": "",
+         "password": "",
+         "name": "",
+         "imageUrl": "",
+         "websiteUrl": "",
+         "description": ""
+      }
    }
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "authToken": {
+         "token": "",
+         "username": ""
+      }
    }
    ```
 * /requestmatch/{user-id-to-match-with}
@@ -135,14 +167,12 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username":"text",
-      "password":"text",
-      "userType":0
+      "requestedUserId": ""
    }
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /acceptmatch/{user-id-to-match-with}
@@ -150,14 +180,14 @@ TODO:
    ```
    REQUEST JSON:
    {
-      "username":"text",
-      "password":"text",
-      "userType":0
+      "username": "text",
+      "password": "text",
+      "userType": 0
    }
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /declinematch/{user-id-to-match-with}
@@ -169,126 +199,141 @@ TODO:
       "password":"text",
       "userType":0
    }
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 
 * /postopening
 
    ```
-   RESPONSE JSON:
+   REQUEST JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "jobOpening":{
+         "industry": "",
+         "companyId": "",
+         "jobDescription": ""
+      }
+   }
+   HTTP 200 RESPONSE JSON:
+   {
+      "message": "",
+      "success": true
    }
    ```
 * /recommendstudent
    ```
-   RESPONSE JSON:
+   REQUEST JSON:
+   { 
+      "studentEmail": "",
+      "mentorEmail": "",
+      "message":  "",
+      "jobOpeningId": ""
+   }
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "message": "",
+      "success": true
    }
    ```
 * /getmentor/{industry}/{mentor-id}
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /getmentors/{industry}?limit=10&last=null
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /getmymentors/{industry}?limit=10&last=null
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /getstudent/{industry}/{student-id}
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /getstudents/{industry}?limit=10&last=null
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /getmystudents/{industry}?limit=10&last=null
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /getopening/{industry}/{opening-id}
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /getopenings/{industry}?limit=10&last=null
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /getpendingmatches/{industry}?limit=10&last=null
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /getrecommendation/{recommendation-id}/{job-opening-id}
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
 * /ismatched/{other-user-id}
 
    ```
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
-      "isSuccess":true,
-      "message":"Login successful"
+      "success": true,
+      "message": ""
    }
    ```
