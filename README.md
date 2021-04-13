@@ -1,11 +1,9 @@
 # Sandbox Hackathon ReferMe Server
 An AWS server for an app called ReferMe that solves the internship/job recruiting problem for both students and employers.
 
-https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon
+Server link: https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon
 
-TRY THIS:
-
-https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon/getmentors/demo?limit=10&last=null
+Example path to try: https://pji3ct6u5g.execute-api.us-west-2.amazonaws.com/hackathon/getmentors/demo?limit=10&last=null
 
 
 ## API Gateway Endpoints:
