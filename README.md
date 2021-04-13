@@ -33,7 +33,7 @@ GET:
       "password":"",
       "userType":0
    }
-   RESPONSE JSON:
+   HTTP 200 RESPONSE JSON:
    {
       "isSuccess":true,
       "message":""
