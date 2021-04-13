@@ -7,13 +7,13 @@ POST:
 * /login
 
 REQUEST JSON:
-```json
+```
 {
    "username":"text",
    "password":"text",
    "userType":0
 }
-```json
+```
 RESPONSE JSON:
 ```
 {
