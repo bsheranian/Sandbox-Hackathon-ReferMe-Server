@@ -17,9 +17,30 @@ POST:
 * /requestmatch
 * /acceptmatch
 * /declinematch
-
+* /postopening
+* /recommendstudent
 
 GET:
+* /getmentor/{industry}/{mentor-id}
+* /getmentors/{industry}?limit=10&last=null
+* /getmymentors/{industry}?limit=10&last=null
+* /getstudent/{industry}/{student-id}
+* /getstudents/{industry}?limit=10&last=null
+* /getmystudents/{industry}?limit=10&last=null
+* /getopening/{industry}/{opening-id}
+* /getopenings/{industry}?limit=10&last=null
+* /getpendingmatches/{industry}?limit=10&last=null
+* /getrecommendation/{recommendation-id}/{job-opening-id}
+* /ismatched/{other-user-id}
+
+TODO:
+* /getrecommendations/{industry}/{job-opening-id}?limit=10&last=null
+* /getcompanies/{industry}?limit=10&last=null
+* /getcompany/{company-id}
+* /getmyopenings/{company-id}?limit=10&last=null
+* /isaccepted/{job-opening-id}/{recommendation-id}
+* /getmyrecommendations?limit=10&last=null
+
 
 ## HTTP Responses
 
@@ -155,3 +176,119 @@ GET:
    }
    ```
 
+* /postopening
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /recommendstudent
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getmentor/{industry}/{mentor-id}
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getmentors/{industry}?limit=10&last=null
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getmymentors/{industry}?limit=10&last=null
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getstudent/{industry}/{student-id}
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getstudents/{industry}?limit=10&last=null
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getmystudents/{industry}?limit=10&last=null
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getopening/{industry}/{opening-id}
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getopenings/{industry}?limit=10&last=null
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getpendingmatches/{industry}?limit=10&last=null
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /getrecommendation/{recommendation-id}/{job-opening-id}
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
+* /ismatched/{other-user-id}
+
+   ```
+   RESPONSE JSON:
+   {
+      "isSuccess":true,
+      "message":"Login successful"
+   }
+   ```
