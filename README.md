@@ -3,6 +3,20 @@ An AWS server for an app called ReferMe that solves the internship/job recruitin
 
 # API Gateway Endpoints:
 
+
+POST:
+* /login
+* /register/student
+* /register/mentor
+* /register/company
+* /requestmatch
+* /acceptmatch
+* /declinematch
+
+
+GET:
+
+
 POST:
 * /login
 
