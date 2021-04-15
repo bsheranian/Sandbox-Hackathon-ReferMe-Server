@@ -2,12 +2,7 @@ package util;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
-import com.amazonaws.services.dynamodbv2.model.WriteRequest;
-import com.amazonaws.services.dynamodbv2.xspec.S;
 import dao.CompanyDAO;
 import dao.CredDAO;
 import dao.JobOpeningDAO;
@@ -21,17 +16,12 @@ import model.Match;
 import model.Mentor;
 import model.Recommendation;
 import model.Student;
-import request.GetRecommendationsRequest;
 import request.RegisterCompanyRequest;
 import request.RegisterMentorRequest;
 import request.RegisterStudentRequest;
-import service.GetRecommendationsService;
 import service.RegisterCompanyService;
 import service.RegisterMentorService;
 import service.RegisterStudentService;
-
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 
@@ -71,6 +61,7 @@ public class DBPopulator {
 
   public static void main(String args[]) {
 
+
     Random rand = new Random();
 
     new CredDAO().deleteCred("studentdemo@referme.com");
@@ -104,16 +95,16 @@ public class DBPopulator {
     new MatchDAO().addMatch(new Match("studentdemo@referme.com", "demomentor7@referme.com", "studentdemomentor7@referme.com"));
     new MatchDAO().addMatch(new Match("studentdemo@referme.com", "demomentor8@referme.com", "studentdemomentor8@referme.com"));
 
-    new StudentDAO().addStudent(new Student("demostudent1@regerme.com", null, johnnyDeppImage, "Johnny Depp", "BYU", "Computer Science", "demo", rand.nextDouble() + 3.0));
-    new StudentDAO().addStudent(new Student("demostudent2@regerme.com", null, michaelJacksonImage, "Michael Jackson", "BYU", "Computer Science", "demo", rand.nextDouble() + 3.0));
-    new StudentDAO().addStudent(new Student("demostudent3@regerme.com", null, dwightSchruteImage, "Dwight Schrute", "BYU", "UX Design", "demo", rand.nextDouble() + 3.0));
-    new StudentDAO().addStudent(new Student("demostudent4@regerme.com", null, markZuckerburgImage, "Mark Zuckerburg", "BYU", "Computer Science", "demo", rand.nextDouble() + 3.0));
-    new StudentDAO().addStudent(new Student("demostudent5@regerme.com", null, elonMuskImage, "Elon Musk", "BYU", "UX Design", "demo", rand.nextDouble() + 3.0));
-    new StudentDAO().addStudent(new Student("demostudent6@regerme.com", null, steveJobsImage, "Steve Jobs", "UVU", "Computer Science", "demo", rand.nextDouble() + 3.0));
-    new StudentDAO().addStudent(new Student("demostudent7@regerme.com", null, markRoberImage, "Mark Rober", "UVU", "UX Design", "demo", rand.nextDouble() + 3.0));
-    new StudentDAO().addStudent(new Student("demostudent8@regerme.com", null, michaelScottImage, "Michael Scott", "USU", "Computer Science", "demo", rand.nextDouble() + 3.0));
-    new StudentDAO().addStudent(new Student("demostudent9@regerme.com", null, kanyeWestImage, "Kanye West", "USU", "UX Design", "demo", rand.nextDouble() + 3.0));
-    new StudentDAO().addStudent(new Student("demostudent10@regerme.com", null, lebronJamesImage, "Lebron James", "USU", "Information Systems", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent1@referme.com", null, johnnyDeppImage, "Johnny Depp", "BYU", "Computer Science", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent2@referme.com", null, michaelJacksonImage, "Michael Jackson", "BYU", "Computer Science", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent3@referme.com", null, dwightSchruteImage, "Dwight Schrute", "BYU", "UX Design", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent4@referme.com", null, markZuckerburgImage, "Mark Zuckerburg", "BYU", "Computer Science", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent5@referme.com", null, elonMuskImage, "Elon Musk", "BYU", "UX Design", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent6@referme.com", null, steveJobsImage, "Steve Jobs", "UVU", "Computer Science", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent7@referme.com", null, markRoberImage, "Mark Rober", "UVU", "UX Design", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent8@referme.com", null, michaelScottImage, "Michael Scott", "USU", "Computer Science", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent9@referme.com", null, kanyeWestImage, "Kanye West", "USU", "UX Design", "demo", rand.nextDouble() + 3.0));
+    new StudentDAO().addStudent(new Student("demostudent10@referme.com", null, lebronJamesImage, "Lebron James", "USU", "Information Systems", "demo", rand.nextDouble() + 3.0));
 
     new MatchDAO().addMatch(new Match("demostudent1@referme.com", "mentordemo@referme.com", "accepted"));
     new MatchDAO().addMatch(new Match("demostudent2@referme.com", "mentordemo@referme.com", "accepted"));
